@@ -130,7 +130,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 MEDIA_URL='/media/'
-CSRF_TRUSTED_ORIGINS =["https://qaamuusbackend.up.railway.app","http://localhost:3000/","http://localhost","http://127.0.0.1:3000/"]
+CSRF_TRUSTED_ORIGINS =["https://jaamic-ummah.up.railway.app","http://localhost:3000/","http://localhost","http://127.0.0.1:3000/"]
 # CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS  = True
 MEDIA_ROOT=os.path.join(BASE_DIR,'media')
