@@ -1,0 +1,1 @@
+web: gunicorn jaamic_mgn.wsgi
