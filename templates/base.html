@@ -111,45 +111,6 @@
 
 
 
-              <div class="dropdown d-none d-md-block ms-2">
-                  <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown"
-                      aria-haspopup="true" aria-expanded="false">
-                      <img class="me-2" src="{% static "images/flags/us_flag.jpg" %}" alt="Header Language"
-                          height="16"> English <span class="mdi mdi-chevron-down"></span>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-end">
-
-                      <!-- item-->
-                      <a href="javascript:void(0);" class="dropdown-item notify-item">
-                          <img src="{% static "images/flags/germany_flag.jpg" %}" alt="user-image" class="me-1"
-                              height="12"> <span class="align-middle"> German </span>
-                      </a>
-
-                      <!-- item-->
-                      <a href="javascript:void(0);" class="dropdown-item notify-item">
-                          <img src="{% static "images/flags/italy_flag.jpg" %}" alt="user-image" class="me-1"
-                              height="12"> <span class="align-middle"> Italian </span>
-                      </a>
-
-                      <!-- item-->
-                      <a href="javascript:void(0);" class="dropdown-item notify-item">
-                          <img src="{% static "images/flags/french_flag.jpg" %}" alt="user-image" class="me-1"
-                              height="12"> <span class="align-middle"> French </span>
-                      </a>
-
-                      <!-- item-->
-                      <a href="javascript:void(0);" class="dropdown-item notify-item">
-                          <img src="{% static "images/flags/spain_flag.jpg" %}" alt="user-image" class="me-1"
-                              height="12"> <span class="align-middle"> Spanish </span>
-                      </a>
-
-                      <!-- item-->
-                      <a href="javascript:void(0);" class="dropdown-item notify-item">
-                          <img src="{% static "images/flags/russia_flag.jpg" %}" alt="user-image" class="me-1"
-                              height="12"> <span class="align-middle"> Russian </span>
-                      </a>
-                  </div>
-              </div>
 
               <div class="dropdown d-none d-lg-inline-block">
                   <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
@@ -276,8 +237,14 @@
               <div class="dropdown d-inline-block">
                   <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if user.profileImage %}
                       <img class="rounded-circle header-profile-user" src="{{user.profileImage.url}}"
-                          alt="Header Avatar">
+                          alt="{{user.firstname}}">
+                        {% else %}
+                        <img class="rounded-circle header-profile-user" src="{% static "images/student-im.png" %}"
+                        alt="Header Avatar">
+                        
+                        {% endif %}
                   </button>
                   <div class="dropdown-menu dropdown-menu-end">
                       <!-- item-->

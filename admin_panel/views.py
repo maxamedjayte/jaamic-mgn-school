@@ -8,8 +8,10 @@ from django.contrib.auth.decorators import login_required
 def dashboard(request):
     subjects=Subject.objects.all()
     classes=Classe.objects.all()
+    students=Students.objects.all()
+    latest_students=students.order_by('-registredDate')[:5].all()
 
-    return render(request,'normal-pages/dashboard.html',{'subjects':subjects,'classes':classes})
+    return render(request,'normal-pages/dashboard.html',{'subjects':subjects,'students':students,'classes':classes,'latest_students':latest_students})
 
 
 @login_required(login_url='/login/')

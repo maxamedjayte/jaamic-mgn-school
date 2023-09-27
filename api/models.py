@@ -47,7 +47,7 @@ class Classe(models.Model):
 class Students(models.Model):
     fullName=models.CharField(max_length=255)
     gender=models.CharField(default='ذكر',max_length=10)
-    image=models.ImageField(upload_to='images/students')
+    image=models.ImageField(upload_to='images/students',null=True,blank=True)
     parentName=models.CharField(max_length=255,default='')
     parentNum=models.CharField(max_length=14,default='')
     dateOfBirth=models.DateField()
