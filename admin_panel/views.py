@@ -3,6 +3,8 @@ from api.models import *
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+@login_required(login_url='/login/')
 def dashboard(request):
     subjects=Subject.objects.all()
     classes=Classe.objects.all()
@@ -47,15 +49,19 @@ def manageSubjects(request):
 
 
 
+@login_required(login_url='/login/')
 def registerClasses(request):
     subjects=Subject.objects.all()
     academicYears=AcademicYear.objects.all()
     return render(request,'reg-manage/register-class.html',{'subjects':subjects,'academicYears':academicYears})
 
+
+@login_required(login_url='/login/')
 def manageClasses(request):
     classes=Classe.objects.all()
     return render(request,'reg-manage/manage-classes.html',{"classes":classes})
 
+@login_required(login_url='/login/')
 def classeDetail(request,pk,name):
     classe=Classe.objects.filter(pk=pk).first()
     classStudents=Students.objects.filter(studentClasse=classe.pk)
