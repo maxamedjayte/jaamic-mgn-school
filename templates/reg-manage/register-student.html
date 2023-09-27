@@ -100,7 +100,7 @@
                                     <div class="mb-3 position-relative">
                                         <label class="form-label" for="parentName">اسم ولي الأمر</label>
                                         <input type="text" class="form-control fs-4" id="parentName" name="parentName"
-                                            placeholder="اسم ولي الأمر" required>
+                                            placeholder="اسم ولي الأمر" >
                                         <div class="valid-tooltip">
                                             بدون مشاكل!
                                         </div>
@@ -110,7 +110,7 @@
                                     <div class="mb-3 position-relative">
                                         <label class="form-label" for="parentNum">رقم هاتف ولي الأمر</label>
                                         <input type="text" class="form-control fs-4" id="parentNum" name="parentNum"
-                                            placeholder="رقم هاتف ولي الأمر" required>
+                                            placeholder="رقم هاتف ولي الأمر" >
                                         <div class="valid-tooltip">
                                             بدون مشاكل!
                                         </div>
@@ -126,9 +126,29 @@
 
 
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <div class="mb-3 position-relative">
-                                <label class="form-label" for="studentClasse">الصف الدراسي</label>
+                                <label class="form-label" for="living"> السكن : المذينة </label>
+                                <input type="text" placeholder=" المذينه" class="form-control fs-4" id="living" name="living"
+                                    >
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-md-4">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="motherName">إسم الأم </label>
+                                <input type="text" placeholder="إسم الأم" class="form-control fs-4" id="motherName" name="motherName"
+                                    >
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="studentClasse">المسنوي الدراسي</label>
                                 <select class="form-control fs-4" id="studentClasse" name="studentClasse" required>
                                     {% for classe in classes %}
                                     <option value="{{ classe.pk }}">{{ classe.name }}</option>
@@ -142,21 +162,31 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="mb-3 position-relative">
-                                <label class="form-label" for="dateOfBirth">تاريخ الميلاد</label>
-                                <input type="date" class="form-control fs-4" id="dateOfBirth" name="dateOfBirth"
-                                    required>
+                                <label class="form-label" for="placeOfBirth">مكان الميلاد</label>
+                                <input type="text" placeholder="مكان الميلاد" class="form-control fs-4" id="placeOfBirth" name="placeOfBirth"
+                                    >
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="dateOfBirth">تاريخ الميلاد</label>
+                                <input type="date" class="form-control fs-4" id="dateOfBirth" name="dateOfBirth"
+                                    >
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="registredDate">تاريخ التسجيل</label>
                                 <input type="date" class="form-control fs-4" id="registredDate" name="registredDate"
-                                    required>
+                                    >
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>

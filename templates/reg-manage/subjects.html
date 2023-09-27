@@ -217,6 +217,7 @@ document.getElementById('mainForm').addEventListener('submit', function (formEve
             if (response.ok) {
                 // success alert
                 get_subjects();
+                
                 swal("مادة دراسية", "تم إنشاء المادة الدراسية بنجاح!", "success");
             } else {
                 swal("خطأ", "فشل في إنشاء المادة الدراسية.", "error");

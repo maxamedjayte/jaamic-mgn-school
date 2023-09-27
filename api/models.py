@@ -34,7 +34,7 @@ class Subject(models.Model):
 class Classe(models.Model):
     name=models.CharField(max_length=255,null=True,blank=True)
     subjects=models.ManyToManyField(Subject,blank=True)
-    classRaqam=models.CharField(max_length=255,default='')
+    classRaqam=models.CharField(max_length=255,default='',null=True,blank=True)
     studentsCount=models.IntegerField(null=True,blank=True,default=1)
     status=models.BooleanField(default=True)
     academicYear=models.ForeignKey(AcademicYear,on_delete=models.CASCADE,null=True,blank=True)
@@ -53,5 +53,8 @@ class Students(models.Model):
     dateOfBirth=models.DateField()
     registredDate=models.DateField()
     studentClasse=models.ForeignKey(Classe,on_delete=models.CASCADE,null=True,blank=True)
+    motherName=models.CharField(max_length=255,default='')
+    placeOfBirth=models.CharField(max_length=255,null=True,blank=True)
+    living=models.CharField(max_length=255,null=True,blank=True)
 
     

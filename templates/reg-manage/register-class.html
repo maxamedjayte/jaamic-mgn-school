@@ -99,9 +99,9 @@
                         <div class="col-md-12">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="subjects">المواد</label>
-                                <select class="form-control fs-4" id="subjects" name="subjects[]" multiple required>
+                                <select  class="select2 form-control select2-multiple fs-3" style="text-align: right;" multiple="multiple" multiple data-placeholder="أختر المواد ..."  id="subjects" name="subjects" >
                                     {% for subject in subjects %}
-                                        <option value="{{ subject.id }}">{{ subject }}</option>
+                                        <option value="{{ subject.pk }}">{{ subject }}</option>
                                     {% endfor %}
                                 </select>
                                 <div class="valid-tooltip">
