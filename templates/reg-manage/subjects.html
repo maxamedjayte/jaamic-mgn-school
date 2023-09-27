@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- start page title -->
+<div class="modal fade bd-example-modal-lg" dir="rtl" tabindex="-1" id="edit_subject_modal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content card card-body" id="edit_subject_modal_body">
+            <h5 class="modal-title" id="myLargeModalLabel">تعديل المادة الدراسية</h5>
+            <hr>
+            <!-- Rest of the modal content -->
+        </div>
+    </div>
+</div>
+<div class="row" dir="rtl"  >
+    <div class="col-sm-6">
+        <div class="page-title-box">
+            <h4>Dashboard</h4>
+            <ol class="breadcrumb m-0">
+                <li class="breadcrumb-item"><a href="javascript: void(0);">Lexa</a></li>
+                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="state-information d-none d-sm-block">
+            <div class="state-graph">
+                <div id="header-chart-1" data-colors='["--bs-primary"]'></div>
+                <div class="info">Balance $ 2,317</div>
+            </div>
+            <div class="state-graph">
+                <div id="header-chart-2" data-colors='["--bs-info"]'></div>
+                <div class="info">Item Sold 1230</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end page title -->
+
+
+<div class="row" dir="rtl" style="font-family: 'Lateef', serif;font-size: large;">
+    <div class="col-xl-5 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3 align-items-center">
+                    <div class="col">
+                        <h2 style="font-weight: 500;">تسجيل مادة جديدة</h2>
+                    </div>
+                </div>
+                <hr>
+                <form class="needs-validation fs-3" id="mainForm">
+                    {% csrf_token %}
+                    <div class="mb-3 position-relative">
+                        <label class="form-label" for="subjectName">اسم المادة</label>
+                        <input type="text" class="form-control fs-4" id="name" name="name"
+                            placeholder="اسم المادة" required>
+                        <div class="valid-tooltip">
+                            بدون مشاكل!
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="subjectDescription">الوصف</label>
+                                <textarea class="form-control fs-4" id="desc" name="desc"
+                                    placeholder="الوصف" required></textarea>
+                                <div class="invalid-tooltip">
+                                    يرجى تقديم وصف صالح.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="submittingDiv">
+                        <button class="btn btn-primary fs-4" type="submit">سجل </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-7 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-0 align-items-center">
+                    <div class="col">
+                        <h3 style="font-weight: 500;">قائمة المواد</h3>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-centered table-nowrap table-hover">
+                        <thead style="color: white;background-color: black;">
+                            <tr>
+                                <th>#</th>
+                                <th>اسم المادة</th>
+                                <th>الوصف</th>
+                                <th>الإجراء</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subject_body" class="fs-3">
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+var submittingDiv = document.getElementById("submittingDiv");
+var subject_body = document.getElementById("subject_body");
+
+var allSubjects = [];
+
+function ready(callback) {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        // Document is already ready or in the process of loading
+        callback();
+    } else {
+        document.addEventListener('DOMContentLoaded', callback);
+    }
+}
+
+// Usage
+ready(function () {
+    // Your code to be executed when the document is ready
+    get_subjects();
+});
+
+function get_subjects() {
+    subject_body.innerHTML = `
+        <tr>
+            <th scope="row">-</th>
+            <td>
+                <div class="" style="background-color: grey;height: 4px;"></div>
+            </td>
+            <td>
+                <div class="" style="background-color: grey;height: 3px;"></div>
+            </td>
+            <td>
+                <div class="" style="background-color: grey;height: 3px;"></div>
+            </td>
+         
+        </tr>
+        <tr>
+            <th scope="row">-</th>
+            <td>
+                <div class="" style="background-color: grey;height: 4px;"></div>
+            </td>
+            <td>
+                <div class="" style="background-color: grey;height: 3px;"></div>
+            </td>
+            <td>
+                <div class="" style="background-color: grey;height: 3px;"></div>
+            </td>
+            
+        </tr>
+        <tr>
+            <th scope="row">-</th>
+            <td>
+                <div class="" style="background-color: grey;height: 4px;"></div>
+            </td>
+            <td>
+                <div class="" style="background-color: grey;height: 3px;"></div>
+            </td>
+            <td>
+                <div class="" style="background-color: grey;height: 3px;"></div>
+            </td>
+           
+        </tr>
+    `;
+
+    fetch('/api/subjects/', { method: 'GET' })
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            allSubjects = data;
+            subject_body.innerHTML = '';
+            for (var subject of data) {
+                subject_body.innerHTML += `
+                    <tr>
+                        <th scope="row">${subject.id}</th>
+                        <td>${subject.name}</td>
+                        <td>${subject.desc}</td>
+                        <td>
+                            <div onclick="edit_subject(${subject.id})" class="btn btn-dark btn-sm btn-hover">
+                                <i class="mdi mdi-pencil"></i>
+                            </div>
+                            <div onclick="delete_subject(${subject.id})" class="btn btn-danger text-white btn-sm btn-hover">
+                                <i class="mdi mdi-delete"></i>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+        });
+}
+
+
+
+
+document.getElementById('mainForm').addEventListener('submit', function (formEvent) {
+    formEvent.preventDefault();
+    submittingDiv.innerHTML = `
+        <button class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            registering...
+        </button>
+    `;
+    var formData = new FormData(formEvent.target);
+
+    fetch('/api/subjects/', {
+        method: 'POST',
+        body: formData,
+        redirect: 'follow'
+    })
+        .then(function (response) {
+            if (response.ok) {
+                // success alert
+                get_subjects();
+                swal("مادة دراسية", "تم إنشاء المادة الدراسية بنجاح!", "success");
+            } else {
+                swal("خطأ", "فشل في إنشاء المادة الدراسية.", "error");
+            }
+            // Handle response
+            console.log(response);
+        })
+        .catch(function (error) {
+            // Handle error
+            console.error(error);
+        })
+        .finally(function () {
+            submittingDiv.innerHTML = `
+                <button type="submit" class="btn btn-primary">Submit</button>
+            `;
+        });
+});
+
+function edit_subject(subject_id) {
+    var subject = allSubjects.find(subject => subject.id === subject_id);
+
+    edit_subject_modal_body.innerHTML = `
+        <h6>تعديل السنة الأكاديمية</h6>
+        <hr>
+        <form method="post" id="mainForm2">
+            {% csrf_token %}
+            <div class="mb-3 position-relative">
+                <label class="form-label" for="name">اسم المادة</label>
+                <input type="text" class="form-control" id="name" name="name" value="${subject.name}" placeholder="اسم المادة" required>
+                <div class="valid-tooltip">تمام!</div>
+            </div>
+
+            <div class="mb-3 position-relative">
+                <label class="form-label" for="desc">الوصف</label>
+                <textarea class="form-control" id="desc" name="desc" placeholder="الوصف" required>${subject.desc}</textarea>
+                <div class="invalid-tooltip">يرجى تقديم وصف صالح.</div>
+            </div>
+
+            <div id="submittingDiv2">
+                <button type="submit" class="btn btn-primary">تحديث</button>
+            </div>
+        </form>
+    `;
+
+    $('#edit_subject_modal').modal('show');
+    document.getElementById('mainForm2').addEventListener('submit', function (formEvent) {
+        formEvent.preventDefault();
+        var submittingDiv = document.getElementById("submittingDiv2");
+        submittingDiv.innerHTML = `
+            <button class="btn btn-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                جارٍ التحديث...
+            </button>
+        `;
+        var formData = new FormData(formEvent.target);
+
+        fetch(`/api/subjects/${subject_id}/`, {
+            method: 'PATCH', // or 'PUT' if partial update is desired
+            body: formData,
+            redirect: 'follow'
+        })
+            .then(function (response) {
+                if (response.ok) {
+                    // success alert
+                    get_subjects();
+                    swal("تم تحديث المادة الدراسية", "تم تحديث المادة الدراسية بنجاح.", "success");
+                    $('#edit_subject_modal').modal('hide');
+                } else {
+                    swal("خطأ", "فشل في تحديث المادة الدراسية.", "error");
+                }
+                // Handle response
+            })
+            .catch(function (error) {
+                // Handle error
+            })
+            .finally(function (response) {
+                submittingDiv.innerHTML = `
+                    <button type="submit" class="btn btn-primary">تحديث</button>
+                `;
+            });
+    });
+}
+function delete_subject(subject_id) {
+    swal({
+        title: "هل أنت متأكد؟",
+        text: `هل أنت متأكد أنك تريد حذف المادة الدراسية برقم التعريف ${subject_id}؟`,
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            fetch(`/api/subjects/${subject_id}/`, {
+                method: 'DELETE',
+            })
+                .then(function(response) {
+                    if (response.ok) {
+                        // success alert
+                        get_subjects();
+                        swal("تم الحذف!", "تم حذف المادة الدراسية بنجاح.", "success");
+                    } else {
+                        swal("خطأ", "فشل في حذف المادة الدراسية.", "error");
+                    }
+                    // Handle response
+                    console.log(response);
+                })
+                .catch(function(error) {
+                    // Handle error
+                    console.error(error);
+                });
+        }
+    });
+}
+
+
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div dir="rtl" style="font-family: 'Lateef', serif;font-size: large;" class="row">
+    <div class="col-xl-3">
+        <div class="user-sidebar">
+            <div class="card">
+                <img src="{{studentDetail.image.url}}" style="object-fit: cover;" class="card-img-top" alt="...">
+
+            </div>
+            <!--         
+            <div dir="rtl" class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Demographics</h4>
+                </div>
+                <div class="card-body" >
+                    <ul class="list-unstyled mb-0">
+                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Gender</span><span>Male</span></li>
+                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">DOB</span><span>01/02/2000</span></li>
+                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Age</span><span>22</span></li>
+                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Hire Date</span><span>22/08/2022</span></li>
+                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Department</span><span>Graphic Design</span></li>
+                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Location</span><span>Jannieborouth</span></li>
+                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Position</span><span>UX Designer</span></li>
+                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Supervisor</span><span>Meson Jansen</span></li>
+                    </ul>
+                </div> 
+            </div>  -->
+            <div class="card">
+                <div class="card-body">
+                    <!-- <h5 class="card-title mb-4">Skills</h5> -->
+                    <div class="d-flex flex-wrap gap-2 fs-15">
+                        <a href="javascript:void(0);" class="badge badge-soft-primary">Photoshop</a>
+                        <a href="javascript:void(0);" class="badge badge-soft-primary">illustrator</a>
+                        <a href="javascript:void(0);" class="badge badge-soft-primary">HTML</a>
+                        <a href="javascript:void(0);" class="badge badge-soft-primary">CSS</a>
+                        <a href="javascript:void(0);" class="badge badge-soft-primary">Javascript</a>
+                        <a href="javascript:void(0);" class="badge badge-soft-primary">Php</a>
+                        <a href="javascript:void(0);" class="badge badge-soft-primary">Python</a>
+                    </div>
+                </div> <!-- end card body -->
+            </div> <!-- end card -->
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar-xs">
+                                <div class="avatar-title rounded-circle bg-primary bg-gradient fs-4">
+                                    <i class="mdi mdi-chart-pie"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="text-muted mb-1">Revenue</p>
+                            <h5 class="mb-0">$21,456</h5>
+                        </div>
+
+                        <div class="flex-shrink-0 align-self-end ms-2">
+                            <div class="badge rounded-pill font-size-13 badge-soft-success">+ 2.65%
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end card body -->
+            </div> <!-- end card -->
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar-xs">
+                                <div class="avatar-title rounded-circle bg-primary bg-gradient fs-4">
+                                    <i class="mdi mdi-shopping"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="text-muted mb-1">Orders</p>
+                            <h5 class="mb-0">5,643</h5>
+                        </div>
+                        <div class="flex-shrink-0 align-self-end ms-2">
+                            <div class="badge rounded-pill font-size-13 badge-soft-danger">- 0.82%
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end card body -->
+            </div> <!-- end card -->
+
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <div class="avatar-xs">
+                                <div class="avatar-title rounded-circle bg-primary bg-gradient fs-4">
+                                    <i class="mdi mdi-account-multiple"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <p class="text-muted mb-1">Customers</p>
+                            <h5 class="mb-0">45,254</h5>
+                        </div>
+                        <div class="flex-shrink-0 align-self-end ms-2">
+                            <div class="badge rounded-pill font-size-13 badge-soft-danger">- 1.04%</div>
+                        </div>
+                    </div>
+                </div> <!-- end card body -->
+            </div> <!-- end card -->
+
+
+        </div>
+    </div>
+
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-header" style="background-color: rgb(50, 46, 46);color: white;" >
+
+                <h1 class="modal-title" id="myLargeModalLabel">معلومات هذا الطالب </h1>
+            </div>
+            <div class="card-body">
+                    <!-- Rest of the modal content -->
+                
+                <div id="profile-chart" class="apex-charts"></div>
+                <form class="needs-validation fs-3" id="mainForm" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="fullName">الاسم الكامل</label>
+                                <input type="text" class="form-control fs-2" disabled value="{{studentDetail.fullName}}" id="fullName" name="fullName"
+                                    placeholder="الاسم الكامل" required>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="gender">الجنس</label>
+                                <select class="form-select fs-2" id="gender" name="gender" disabled required>
+                                    <option selected value="{{studentDetail.gender}}">{{studentDetail.gender}}</option>
+                     
+                                </select>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="parentName">اسم ولي الأمر</label>
+                                <input type="text" class="form-control fs-2" id="parentName" disabled value="{{studentDetail.parentName}}" name="parentName"
+                                    placeholder="اسم ولي الأمر" required>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="parentNum">رقم هاتف ولي الأمر</label>
+                                <input type="text" class="form-control fs-2" id="parentNum" disabled value="{{studentDetail.parentNum}}" name="parentNum"
+                                    placeholder="رقم هاتف ولي الأمر" required>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="studentClasse">الصف الدراسي</label>
+                                <select class="form-control fs-4" id="studentClasse" name="studentClasse" disabled required>
+                         
+                                    <option value="{{studentDetail.studentClasse.pk}}">{{studentDetail.studentClasse.name}}</option>
+                                </select>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="dateOfBirth">تاريخ الميلاد</label>
+                                <input type="date" class="form-control fs-4" id="dateOfBirth" value="{{studentDetail.dateOfBirth}}" disabled name="dateOfBirth"
+                                    required>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="registredDate">تاريخ التسجيل</label>
+                                <input type="date" class="form-control fs-4" id="registredDate" value="{{studentDetail.registredDate}}" disabled name="registredDate"
+                                    required>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                 
+                </form>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+{% endblock %}
