@@ -61,6 +61,8 @@ def registerClasses(request):
 @login_required(login_url='/login/')
 def manageClasses(request):
     classes=Classe.objects.all()
+    for cls in classes:
+        cls.studentsCount=Students.objects.filter(studentClasse=cls.pk).count()
     return render(request,'reg-manage/manage-classes.html',{"classes":classes})
 
 @login_required(login_url='/login/')

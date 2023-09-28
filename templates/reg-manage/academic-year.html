@@ -10,7 +10,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<!-- <div class="row">
     <div class="col-sm-6">
         <div class="page-title-box">
             <h4>Dashboard</h4>
@@ -33,60 +33,55 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- end page title -->
 
 
-<div class="row">
-
+<div dir="rtl" style="font-family: 'Lateef', serif;font-size: large;"  class="row">
     <div class="col-xl-5 col-md-12">
         <div class="card">
             <div class="card-body">
                 <div class="row mb-3 align-items-center">
                     <div class="col">
-                        <h5>register new package</h5>
+                        <h2>تسجيل عام دراسي جديدة</h2>
                     </div>
-
                 </div>
                 <hr>
-                <form class="needs-validation" id="mainForm">  {% csrf_token %}
+                <form class="needs-validation" id="mainForm"> {% csrf_token %}
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3 position-relative">
-                                <label class="form-label" for="fromDate">From Date</label>
-                                <input type="text" class="form-control" id="fromDate"  name="fromDate" placeholder="Ka- Bilaawda"
+                                <label class="form-label" for="fromDate">تاريخ البدء</label>
+                                <input type="text" class="form-control" id="fromDate" name="fromDate" placeholder="كما في الاستمارة"
                                     required>
                                 <div class="valid-tooltip">
-                                    Looks good!
+                                    تمام!
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3 position-relative">
-                                <label class="form-label" for="toDate">To Date</label>
-                                <input type="text" class="form-control" id="toDate" name="toDate" placeholder="Ku eg" required>
+                                <label class="form-label" for="toDate">تاريخ الانتهاء</label>
+                                <input type="text" class="form-control" id="toDate" name="toDate" placeholder="كما في الاستمارة" required>
                                 <div class="valid-tooltip">
-                                    Looks good!
+                                    تمام!
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3 position-relative">
-                                <label class="form-label" for="desc">Description</label>
-                                <textarea class="form-control" id="desc" name="desc"  placeholder="Description"
+                                <label class="form-label" for="desc">الوصف</label>
+                                <textarea class="form-control" id="desc" name="desc" placeholder="الوصف"
                                     required></textarea>
                                 <div class="invalid-tooltip">
-                                    Please provide a valid description.
+                                    يُرجى تقديم وصف صحيح.
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div id="submitingDiv">
-
                         <button class="btn btn-primary" type="submit">سجل</button>
                     </div>
                 </form>
@@ -94,14 +89,11 @@
                     <div class="toast-header">
                         <img src="..." class="rounded mr-2" alt="...">
                         <strong class="mr-auto">Bootstrap</strong>
-                        <small>11 mins ago</small>
+                        <small>قبل 11 دقيقة</small>
                         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <!-- <div class="toast-body">
-                        Hello, world! This is a toast message.
-                    </div> -->
                 </div>
             </div>
         </div>
@@ -111,28 +103,23 @@
             <div class="card-body">
                 <div class="row mb-0 align-items-center">
                     <div class="col">
-                        <h5>Dhamaan Sanad-dugsiyeedyada</h5>
+                        <h5>جميع الطلاب</h5>
                     </div>
-                    <!-- <div class="col-auto"> </div> -->
                 </div>
                 <table class="table">
                     <thead style="background-color: black;color: white;">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">From-Date</th>
-                            <th scope="col">To-Date</th>
-                            <th scope="col">Faahfaahin</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">تاريخ البدء</th>
+                            <th scope="col">تاريخ الانتهاء</th>
+                            <th scope="col">الوصف</th>
+                            <th scope="col">الإجراء</th>
                         </tr>
                     </thead>
                     <tbody id="academic_years_body">
 
                     </tbody>
                 </table>
-
-                <!-- <div class="text-center">
-                    <a href="#!" class="b-b-primary text-primary">View all <i class="ti ti-chevron-right"></i></a>
-                </div> -->
             </div>
         </div>
     </div>
