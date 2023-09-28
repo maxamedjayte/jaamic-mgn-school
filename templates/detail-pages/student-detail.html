@@ -1,7 +1,174 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<!-- start page title -->
+<div dir="rtl" class="modal fade bd-example-modal-xl" tabindex="-1" id="edit_student" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content card card-body" id="edit_student_body">
+            <hr>
+            <form class="needs-validation fs-5" id="mainForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div style="border: 1px solid grey;border-radius: 5px;display: flex; justify-content: center; align-items: center; height: 200px;"
+                        class="col-2">
+                        
+                        <img id="preview-img" style="max-width: 100%; height: auto;object-fit: contain;"
+                            src="{% static "images/student-im.png" %}">
+                    </div>
+                    <div class="col-10">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label" for="image">الصورة</label>
+                                    <input type="file" class="form-control fs-4" id="image" name="image"
+                                        accept="image/*" onchange="previewImage(event)">
+                                    <div class="valid-tooltip">
+                                        بدون مشاكل!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label" for="fullName">الاسم الكامل</label>
+                                    <input type="text" class="form-control fs-5" id="fullName"
+                                        value="{{studentDetail.fullName}}" name="fullName" placeholder="الاسم الكامل"
+                                        required>
+                                    <div class="valid-tooltip">
+                                        بدون مشاكل!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label" for="gender">الجنس</label>
+                                    <select class="form-select fs-4" id="gender" name="gender" required>
+                                        {% if studentDetail.gender == "ذكر" %}
+                                        <option selected value="ذكر">ذكر</option>
+                                        <option value="أنثى">أنثى</option>
+                                        {% else %}
+                                        <option value="ذكر">ذكر</option>
+                                        <option selected value="أنثى">أنثى</option>
+                                        {% endif %}
+                                    </select>
+                                    <div class="valid-tooltip">
+                                        بدون مشاكل!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label" for="parentName">اسم ولي الأمر</label>
+                                    <input type="text" class="form-control fs-5" id="parentName"
+                                        value="{{studentDetail.parentName}}" name="parentName"
+                                        placeholder="اسم ولي الأمر">
+                                    <div class="valid-tooltip">
+                                        بدون مشاكل!
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label" for="parentNum">رقم هاتف ولي الأمر</label>
+                                    <input type="text" class="form-control fs-5" id="parentNum"
+                                        value="{{studentDetail.parentNum}}" name="parentNum"
+                                        placeholder="رقم هاتف ولي الأمر">
+                                    <div class="valid-tooltip">
+                                        بدون مشاكل!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3 position-relative">
+                            <label class="form-label" for="living"> السكن : المذينة </label>
+                            <input type="text" placeholder=" المذينه" class="form-control fs-5" id="living"
+                                value="{{studentDetail.living}}" name="living">
+                            <div class="valid-tooltip">
+                                بدون مشاكل!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3 position-relative">
+                            <label class="form-label" for="motherName">إسم الأم </label>
+                            <input type="text" placeholder="إسم الأم" class="form-control fs-5" id="motherName"
+                                value="{{studentDetail.motherName}}" name="motherName">
+                            <div class="valid-tooltip">
+                                بدون مشاكل!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3 position-relative">
+                            <label class="form-label" for="studentClasse">المسنوي الدراسي</label>
+                            <select class="form-control fs-5" id="studentClasse" name="studentClasse" required>
+                                {% for classe in classes %}
+                                <option value="{{ classe.pk }}">{{ classe.name }}</option>
+                                {% endfor %}
+                                <option selected value="{{studentDetail.pk}}">{{studentDetail.studentClasse}}</option>
+                            </select>
+                            <div class="valid-tooltip">
+                                بدون مشاكل!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3 position-relative">
+                            <label class="form-label" for="placeOfBirth">مكان الميلاد</label>
+                            <input type="text" placeholder="مكان الميلاد" value="{{studentDetail.placeOfBirth}}"
+                                class="form-control fs-5" id="placeOfBirth" name="placeOfBirth">
+                            <div class="valid-tooltip">
+                                بدون مشاكل!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3 position-relative">
+                            <label class="form-label" for="dateOfBirth">تاريخ الميلاد</label>
+                            <input type="date" class="form-control fs-5" id="dateOfBirth"
+                                value="{{studentDetail.dateOfBirth}}" name="dateOfBirth">
+                            <div class="valid-tooltip">
+                                بدون مشاكل!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3 position-relative">
+                            <label class="form-label" for="registredDate">تاريخ التسجيل</label>
+                            <input type="date" class="form-control fs-5" id="registredDate"
+                                value="{{studentDetail.registredDate}}" name="registredDate">
+                            <div class="valid-tooltip">
+                                بدون مشاكل!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div dir="ltr" id="submittingDiv">
+                    <button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div dir="rtl" style="font-family: 'Lateef', serif;font-size: large;" class="row">
     <div class="col-xl-2">
         <div class="user-sidebar">
@@ -9,7 +176,8 @@
                 {% if studentDetail.image %}
                 <img src="{{studentDetail.image.url}}" style="object-fit: cover;" class="card-img-top" alt="...">
                 {% else %}
-                <img src="{% static "images/student-im.png" %}" style="object-fit: cover;" class="card-img-top" alt="...">
+                <img src="{% static " images/student-im.png" %}" style="object-fit: cover;" class="card-img-top"
+                    alt="...">
                 {% endif %}
             </div>
             <!--         
@@ -30,9 +198,9 @@
                     </ul>
                 </div> 
             </div>  -->
-          
 
-           
+
+
 
 
         </div>
@@ -43,12 +211,13 @@
             <div class="card-header" style="background-color: rgb(50, 46, 46); color: white;">
                 <div class="d-flex justify-content-between align-items-center">
                     <h1 class="modal-title" id="myLargeModalLabel">معلومات هذا الطالب</h1>
-                    <button class="btn btn-primary fs-2" type="button">الطالب تعديل</button>
+
+                    <button class="btn btn-primary fs-4" onclick="showEditModal()" type="button"> تعديل الطالب</button>
                 </div>
             </div>
             <div class="card-body">
-                    <!-- Rest of the modal content -->
-                
+                <!-- Rest of the modal content -->
+
                 <div id="profile-chart" class="apex-charts"></div>
                 <form class="needs-validation fs-3" id="mainForm" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -58,8 +227,8 @@
                         <div class="col-md-8">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="fullName">الاسم الكامل</label>
-                                <input type="text" class="form-control fs-2" disabled value="{{studentDetail.fullName}}" id="fullName" name="fullName"
-                                    placeholder="الاسم الكامل" required>
+                                <input type="text" class="form-control fs-2" disabled value="{{studentDetail.fullName}}"
+                                    id="fullName" name="fullName" placeholder="الاسم الكامل" required>
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
@@ -70,7 +239,7 @@
                                 <label class="form-label" for="gender">الجنس</label>
                                 <select class="form-select fs-2" id="gender" name="gender" disabled required>
                                     <option selected value="{{studentDetail.gender}}">{{studentDetail.gender}}</option>
-                     
+
                                 </select>
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
@@ -82,8 +251,9 @@
                         <div class="col-md-6">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="parentName">اسم ولي الأمر</label>
-                                <input type="text" class="form-control fs-2" id="parentName" disabled value="{{studentDetail.parentName}}" name="parentName"
-                                    placeholder="اسم ولي الأمر" required>
+                                <input type="text" class="form-control fs-2" id="parentName" disabled
+                                    value="{{studentDetail.parentName}}" name="parentName" placeholder="اسم ولي الأمر"
+                                    required>
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
@@ -92,7 +262,8 @@
                         <div class="col-md-6">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="parentNum">رقم هاتف ولي الأمر</label>
-                                <input type="text" class="form-control fs-2" id="parentNum" disabled value="{{studentDetail.parentNum}}" name="parentNum"
+                                <input type="text" class="form-control fs-2" id="parentNum" disabled
+                                    value="{{studentDetail.parentNum}}" name="parentNum"
                                     placeholder="رقم هاتف ولي الأمر" required>
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
@@ -109,18 +280,18 @@
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="living"> السكن : المذينة </label>
-                                <input type="text" placeholder=" المذينه" value="{{studentDetail.living}}" disabled class="form-control fs-2" id="living" name="living"
-                                    >
+                                <input type="text" placeholder=" المذينه" value="{{studentDetail.living}}" disabled
+                                    class="form-control fs-2" id="living" name="living">
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
                             </div>
                         </div>
-                         <div class="col-md-3">
+                        <div class="col-md-3">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="motherName">إسم الأم </label>
-                                <input type="text" placeholder="إسم الأم" class="form-control fs-2" disabled value="{{studentDetail.motherName}}" id="motherName" name="motherName"
-                                    >
+                                <input type="text" placeholder="إسم الأم" class="form-control fs-2" disabled
+                                    value="{{studentDetail.motherName}}" id="motherName" name="motherName">
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
@@ -129,9 +300,11 @@
                         <div class="col-md-5">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="studentClasse">الصف الدراسي</label>
-                                <select class="form-control fs-2" id="studentClasse" name="studentClasse" disabled required>
-                         
-                                    <option value="{{studentDetail.studentClasse.pk}}">{{studentDetail.studentClasse.name}}</option>
+                                <select class="form-control fs-2" id="studentClasse" name="studentClasse" disabled
+                                    required>
+
+                                    <option value="{{studentDetail.studentClasse.pk}}">
+                                        {{studentDetail.studentClasse.name}}</option>
                                 </select>
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
@@ -141,12 +314,13 @@
                     </div>
 
                     <div class="row">
-                       
+
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="placeOfBirth">مكان الميلاد</label>
-                                <input type="text" placeholder="مكان الميلاد" class="form-control fs-2" value="{{studentDetail.placeOfBirth}}" disabled id="placeOfBirth" name="placeOfBirth"
-                                    >
+                                <input type="text" placeholder="مكان الميلاد" class="form-control fs-2"
+                                    value="{{studentDetail.placeOfBirth}}" disabled id="placeOfBirth"
+                                    name="placeOfBirth">
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
@@ -155,8 +329,8 @@
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="dateOfBirth">تاريخ الميلاد</label>
-                                <input type="date" class="form-control fs-2" id="dateOfBirth" disabled value="{{studentDetail.dateOfBirth}}" name="dateOfBirth"
-                                    >
+                                <input type="date" class="form-control fs-2" id="dateOfBirth" disabled
+                                    value="{{studentDetail.dateOfBirth}}" name="dateOfBirth">
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
@@ -165,8 +339,8 @@
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="registredDate">تاريخ التسجيل</label>
-                                <input type="date" class="form-control fs-2" id="registredDate" value="{{studentDetail.registredDate}}" disabled name="registredDate"
-                                    required>
+                                <input type="date" class="form-control fs-2" id="registredDate"
+                                    value="{{studentDetail.registredDate}}" disabled name="registredDate" required>
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
@@ -175,7 +349,7 @@
                     </div>
 
                     <hr>
-                 
+
                 </form>
             </div>
         </div>
@@ -185,4 +359,66 @@
 
     </div>
 </div>
+<script>
+    function showEditModal() {
+        $('#edit_student').modal('show');
+    }
+    function previewImage(event) {
+        var input = event.target;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var previewImg = document.getElementById("preview-img");
+                previewImg.src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+
+
+
+
+    document.getElementById('mainForm').addEventListener('submit', function (formEvent) {
+        var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        formEvent.preventDefault();
+        submittingDiv.innerHTML = `
+        <button class="btn btn-primary" type="button" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            جارٍ التسجيل...
+        </button>
+    `;
+        var formData = new FormData(formEvent.target);
+
+        fetch('/api/students/{{studentDetail.pk}}/', {
+            method: 'PATCH',
+            body: formData, 
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
+            redirect: 'follow'
+        })
+            .then(function (response) {
+                if (response.ok) {
+                    // success alert
+                    swal("الصف", "تم إنشاء الطالب بنجاح!", "success");
+                    location.reload()
+                } else {
+                    swal("خطأ", "فشل في إنشاء الطالب.", "error");
+                }
+                // Handle response
+                console.log(response);
+            })
+            .catch(function (error) {
+                // Handle error
+                console.error(error);
+            })
+            .finally(function () {
+                submittingDiv.innerHTML = `
+                <button type="submit" class="btn btn-primary">تسجيل</button>
+            `;
+            });
+    });
+
+</script>
 {% endblock %}

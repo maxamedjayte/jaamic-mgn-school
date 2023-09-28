@@ -264,6 +264,7 @@ function edit_subject(subject_id) {
 
     $('#edit_subject_modal').modal('show');
     document.getElementById('mainForm2').addEventListener('submit', function (formEvent) {
+        var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         formEvent.preventDefault();
         var submittingDiv = document.getElementById("submittingDiv2");
         submittingDiv.innerHTML = `
@@ -277,6 +278,9 @@ function edit_subject(subject_id) {
         fetch(`/api/subjects/${subject_id}/`, {
             method: 'PATCH', // or 'PUT' if partial update is desired
             body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken
+            },
             redirect: 'follow'
         })
             .then(function (response) {

@@ -81,8 +81,9 @@ def registerStudent(request):
     return render(request,'reg-manage/register-student.html',{'classes':classes})
 
 def studentDetail(request,pk,name):
+    classes=Classe.objects.all()
     student=Students.objects.filter(pk=pk).first()
-    return render(request,'detail-pages/student-detail.html',{'studentDetail':student})
+    return render(request,'detail-pages/student-detail.html',{'studentDetail':student,"classes":classes})
 
 def manageStudent(request):
     students=Students.objects.all()
