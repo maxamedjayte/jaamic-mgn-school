@@ -58,3 +58,26 @@ class Students(models.Model):
     living=models.CharField(max_length=255,null=True,blank=True)
 
     
+
+    def __str__(self) -> str:
+        return str(self.fullName)
+    
+
+class ExamEntring(models.Model):
+    examName=models.CharField(max_length=255)
+    examDate=models.DateField(null=True,blank=True)
+    academicYear=models.ForeignKey(AcademicYear,on_delete=models.CASCADE)
+    classe=models.ManyToManyField(Classe,null=True,blank=True)
+
+    def __str__(self) -> str:
+        return str(self.examName)+' -- '+str(self.examDate)
+    
+class ExamMarks(models.Model):
+    student=models.ForeignKey(Students,on_delete=models.CASCADE)
+    exam=models.ForeignKey(ExamEntring,on_delete=models.CASCADE)
+    subject=models.ForeignKey(Subject,on_delete=models.CASCADE)
+    mark=models.IntegerField(null=True,blank=True)
+    dateModified=models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return str(self.student)+' -- '+str(self.exam)+' -- '+str(self.subject)+' -- '+str(self.mark)

@@ -4,7 +4,6 @@ urlpatterns = [
     path('',views.dashboard),
     path('login/',views.loginUser),
     path('logout/',views.logoutUser),
-    
     path('academic-year/',views.academicYear),
 
 
@@ -12,7 +11,6 @@ urlpatterns = [
     path('register-classes/',views.registerClasses),
     path('manage-classes/',views.manageClasses),
     path('classe-detail/<str:pk>/<str:name>/',views.classeDetail),
-
 
     # manage-subjects
     path('manage-subject/',views.manageSubjects),
@@ -24,5 +22,9 @@ urlpatterns = [
 
 
     path('search-student/',views.academicYear),
+
+    # manage-exams
+    path('register-manage-exams/',views.registerManageExams),
+    path('manage-exam-marks/',views.manageExamMarks),
 
 ]

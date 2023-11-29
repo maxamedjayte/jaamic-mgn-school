@@ -90,3 +90,20 @@ def studentDetail(request,pk,name):
 def manageStudent(request):
     students=Students.objects.all()
     return render(request,'reg-manage/manage-student.html',{"students":students})
+
+
+
+@login_required(login_url='/login/')
+def registerManageExams(request):
+    examEntrings=ExamEntring.objects.all()
+    classes=Classe.objects.all()
+    academicYears=AcademicYear.objects.all()
+    return render(request,'reg-manage/register-manage-exams.html',{'examEntrings':examEntrings,'classes':classes,'academicYears':academicYears})
+
+
+
+@login_required(login_url='/login/')
+def manageExamMarks(request):
+    academicYears=AcademicYear.objects.all()
+    
+    return render(request,'reg-manage/manage-exam-marks.html',{'academicYears':academicYears})
