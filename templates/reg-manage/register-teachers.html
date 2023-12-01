@@ -45,7 +45,7 @@
             <div class="card-body">
                 <div class="row mb-3 align-items-center">
                     <div class="col">
-                        <h2>قسم تسجيل الطلاب</h2>
+                        <h2>قسم تسجيل المعلمين</h2>
                     </div>
 
                 </div>
@@ -53,30 +53,38 @@
                 <form class="needs-validation fs-3" id="mainForm" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row">
-
                         <div style="border: 1px solid grey;border-radius: 5px;display: flex; justify-content: center; align-items: center; height: 200px;"
                             class="col-2">
-                            <img id="preview-img" style="max-width: 100%; height: auto;object-fit: contain;" src="{% static "images/student-im.png" %}">
+                            <img id="preview-img" style="max-width: 100%; height: auto;object-fit: contain;"
+                                src="{% static "images/student-im.png" %}">
                         </div>
                         <div class="col-10">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-8">
                                     <div class="mb-3 position-relative">
                                         <label class="form-label" for="image">الصورة</label>
-                                        <input type="file" class="form-control fs-4" id="image" name="image" 
+                                        <input type="file" class="form-control fs-4" id="image" name="image"
                                             accept="image/*" onchange="previewImage(event)">
                                         <div class="valid-tooltip">
                                             بدون مشاكل!
                                         </div>
                                     </div>
                                 </div>
-                                
+                                <div class="col-md-4">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="dateRegistred">تاريخ التسجيل</label>
+                                        <input type="date" class="form-control fs-4" id="dateRegistred" name="dateRegistred" >
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-8">
                                     <div class="mb-3 position-relative">
-                                        <label class="form-label" for="fullName">الاسم الكامل</label>
-                                        <input type="text" class="form-control fs-4" id="fullName" name="fullName"
+                                        <label class="form-label" for="name">الاسم الكامل</label>
+                                        <input type="text" class="form-control fs-4" id="name" name="name"
                                             placeholder="الاسم الكامل" required>
                                         <div class="valid-tooltip">
                                             بدون مشاكل!
@@ -99,9 +107,9 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3 position-relative">
-                                        <label class="form-label" for="parentName">اسم ولي الأمر</label>
-                                        <input type="text" class="form-control fs-4" id="parentName" name="parentName"
-                                            placeholder="اسم ولي الأمر" >
+                                        <label class="form-label" for="phone">رقم الهاتف</label>
+                                        <input type="text" class="form-control fs-4" id="phone" name="phone"
+                                            placeholder="رقم الهاتف">
                                         <div class="valid-tooltip">
                                             بدون مشاكل!
                                         </div>
@@ -109,91 +117,56 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3 position-relative">
-                                        <label class="form-label" for="parentNum">رقم هاتف ولي الأمر</label>
-                                        <input type="text" class="form-control fs-4" id="parentNum" name="parentNum"
-                                            placeholder="رقم هاتف ولي الأمر" >
+                                        <label class="form-label" for="title">اللقب</label>
+                                        <input type="text" class="form-control fs-4" id="title" name="title"
+                                            placeholder="اللقب">
                                         <div class="valid-tooltip">
                                             بدون مشاكل!
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="title">الفصول</label>
+                                        <select class="select2 form-control select2-multiple fs-3"
+                                            style="text-align: right;" multiple="multiple" multiple
+                                            data-placeholder="أختر الفصول ..." id="educatingClasses"
+                                            name="educatingClasses">
+                                            {% for class in classes %}
+                                            <option style="text-align: right;" value="{{class.pk}}">{{class}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="phone">المواد </label>
+                                        <select class="select2 form-control select2-multiple fs-3"
+                                            style="text-align: right;" multiple="multiple" multiple
+                                            data-placeholder="أختر المواد ..." id="educatingSubjects"
+                                            name="educatingSubjects">
+                                            {% for subject in subjects %}
+                                            <option value="{{subject.pk}}">{{subject}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
 
                         </div>
 
                     </div>
 
 
-
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="living"> السكن : المذينة </label>
-                                <input type="text" placeholder=" المذينه" class="form-control fs-4" id="living" name="living"
-                                    >
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                         <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="motherName">إسم الأم </label>
-                                <input type="text" placeholder="إسم الأم" class="form-control fs-4" id="motherName" name="motherName"
-                                    >
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="studentClasse">المسنوي الدراسي</label>
-                                <select class="form-control fs-4" id="studentClasse" name="studentClasse" required>
-                                    {% for classe in classes %}
-                                    <option value="{{ classe.pk }}">{{ classe.name }}</option>
-                                    {% endfor %}
-                                </select>
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="placeOfBirth">مكان الميلاد</label>
-                                <input type="text" placeholder="مكان الميلاد" class="form-control fs-4" id="placeOfBirth" name="placeOfBirth"
-                                    >
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="dateOfBirth">تاريخ الميلاد</label>
-                                <input type="date" class="form-control fs-4" id="dateOfBirth" name="dateOfBirth"
-                                    >
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="registredDate">تاريخ التسجيل</label>
-                                <input type="date" class="form-control fs-4" id="registredDate" name="registredDate"
-                                    >
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <hr>
                     <div dir="ltr" id="submittingDiv">
@@ -210,8 +183,8 @@
                         </button>
                     </div>
                     <!-- <div class="toast-body">
-                        Hello, world! This is a toast message.
-                    </div> -->
+                                                Hello, world! This is a toast message.
+                                            </div> -->
                 </div>
             </div>
         </div>
@@ -246,14 +219,14 @@
     document.getElementById('mainForm').addEventListener('submit', function (formEvent) {
         formEvent.preventDefault();
         submittingDiv.innerHTML = `
-        <button class="btn btn-primary" type="button" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            جارٍ التسجيل...
-        </button>
-    `;
+                                <button class="btn btn-primary" type="button" disabled>
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    جارٍ التسجيل...
+                                </button>
+                            `;
         var formData = new FormData(formEvent.target);
 
-        fetch('/api/students/', {
+        fetch('/api/teachers/', {
             method: 'POST',
             body: formData,
             redirect: 'follow'
@@ -261,12 +234,12 @@
             .then(function (response) {
                 if (response.ok) {
                     // success alert
-                    swal("الصف", "تم إنشاء الطالب بنجاح!", "success");
+                    swal("الصف", "تم إنشاء المعلم بنجاح!", "success");
                 } else {
-                    swal("خطأ", "فشل في إنشاء الطالب.", "error");
+                    swal("خطأ", "فشل في إنشاء المعلم.", "error");
                 }
                 // Handle response
-                console.log(response);
+                location.reload()
             })
             .catch(function (error) {
                 // Handle error
@@ -274,8 +247,8 @@
             })
             .finally(function () {
                 submittingDiv.innerHTML = `
-                <button type="submit" class="btn btn-primary">تسجيل</button>
-            `;
+                    <button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
+                                    `;
             });
     });
 

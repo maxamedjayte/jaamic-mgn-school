@@ -93,6 +93,34 @@ def manageStudent(request):
 
 
 
+
+# teachers
+# teachers
+def registerTeacher(request):
+    teachers=Teachers.objects.all()
+    subjects= Subject.objects.all()
+    classes = Classe.objects.all()
+    return render(request,'reg-manage/register-teachers.html',{"teachers":teachers,"subjects":subjects,"classes":classes})
+
+def manageTeachers(request):
+    teachers=Teachers.objects.all()
+    return render(request,'reg-manage/manage-teachers.html',{"teachers":teachers})
+
+def teacherDetail(request,pk,name):
+    teacher=Teachers.objects.filter(pk=pk).first()
+    return render(request,'detail-pages/teacher-detail.html',{'teacherDetail':teacher})
+
+
+
+
+
+
+
+
+
+
+
+
 @login_required(login_url='/login/')
 def registerManageExams(request):
     examEntrings=ExamEntring.objects.all()
@@ -104,6 +132,6 @@ def registerManageExams(request):
 
 @login_required(login_url='/login/')
 def manageExamMarks(request):
-    academicYears=AcademicYear.objects.all()
+    examEntrings = ExamEntring.objects.filter(academicYear=AcademicYear.objects.filter(isCurrentAcademicYear=True).first())
     
-    return render(request,'reg-manage/manage-exam-marks.html',{'academicYears':academicYears})
+    return render(request,'reg-manage/manage-exam-marks.html',{'examEntrings':examEntrings})

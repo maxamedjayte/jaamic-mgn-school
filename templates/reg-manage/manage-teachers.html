@@ -1,39 +1,13 @@
 {% extends 'base-datatable.html' %}
 {% load static %}
 {% block content %}
-<!-- <div dir="rtl" class="row">
-    <div class="col-sm-6">
-        <div class="page-title-box">
-            <h4>Dashboard</h4>
-            <ol class="breadcrumb m-0">
-                <li class="breadcrumb-item"><a href="javascript: void(0);">Lexa</a></li>
-                <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="state-information d-none d-sm-block">
-            <div class="state-graph">
-                <div id="header-chart-1" data-colors='["--bs-primary"]'></div>
-                <div class="info">Balance $ 2,317</div>
-            </div>
-            <div class="state-graph">
-                <div id="header-chart-2" data-colors='["--bs-info"]'></div>
-                <div class="info">Item Sold 1230</div>
-            </div>
-        </div>
-    </div>
-</div> -->
-<!-- end page title -->
-
-
+<!-- start page title -->
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div style="font-family: 'Lateef', serif;font-size: large;" class="card-body">
 
-                <h4 class="card-title">معلومات الطلاب</h4>
+                <h4 class="card-title">معلومات المعلمين</h4>
                 <!-- <p class="card-title-desc">DataTables has most features enabled by default, so all you need to do to use
                     it with your own tables is to call the construction function: <code>$().DataTable();</code>. -->
                 </p>
@@ -44,23 +18,22 @@
                         style="color: white;background-color:black;font-family: 'Lateef', serif;font-size: large;">
                         <tr>
                             <th >#</th>
-                            <th>الطالب</th>
-                            <th>المسؤول</th>
-                            <th>الفصل</th>
+                            <th>المعلم</th>
+                            <th>الهانف</th>
                             <th> تاريخ التسجيل </th>
                             <th>الإجراء</th>
                         </tr>
                     </thead style="font-family: 'Lateef', serif;font-size: large;">
 
                     <tbody class="fs-3">
-                        {% for student in students %}
+                        {% for teacher in teachers %}
                         <tr style="border-bottom: 1px solid grey;" class="m-0 p-9">
-                            <td width="10px">{{student.id}}</td>
+                            <td width="10px">{{teacher.id}}</td>
                             <td>
                                     
                                     <div class="inbox-item-img float-end me-3 ms-2">
-                                        {% if student.image %}
-                                        <img src="{{student.image.url}}"
+                                        {% if teacher.image %}
+                                        <img src="{{teacher.image.url}}"
                                             class="avatar-sm rounded-circle" alt="">
                                         {% else %}
                                         
@@ -68,26 +41,23 @@
                                             class="avatar-sm rounded-circle" alt="">
                                         {% endif %}
                                         </div>
-                                    <p style="margin-bottom: -10px;font-weight: 500" class="inbox-item-text text-muted mb-0 fs-2">{{student.fullName}}</p>
-                                    <h6 style="margin-top: -10px;" class="inbox-item-author mb-0 font-size-16">{{student.gender}}</h6>
+                                    <p style="margin-bottom: -10px;font-weight: 500" class="inbox-item-text text-muted mb-0 fs-2">{{teacher.name}}</p>
+                                    <h6 style="margin-top: -10px;" class="inbox-item-author mb-0 font-size-16">{{teacher.title}}</h6>
 
 
                             </td>
                             <td>
-                                <p style="margin-bottom: -10px;" class="fs-2 " >{{student.parentName}}</p>
-                                <p style="margin-top: -15px;" class="fs-4">{{student.parentNum}}</p>
+                                <p style="margin-bottom: -10px;" class="fs-3 " >{{teacher.phone}}</p>
+                                <p style="margin-top: -15px;" class="fs-4">{{teacher.gender}}</p>
                                 
                             </td>
-                            <td>{{student.studentClasse.name}}</td>
                             <td>{{student.registredDate}}</td>
                             <td width="100px">
-                                <div onclick="window.location.href = `/student-detail/{{student.pk}}/{{student.fullName}}/`" class="btn btn-info btn-sm btn-hover">
+                                <div onclick="window.location.href = `/teacher-detail/{{teacher.pk}}/{{teacher.name}}/`" class="btn btn-info btn-sm btn-hover">
                                     <i class="mdi mdi-eye"></i>
                                 </div>
-                                <div onclick="edit_subject('{{class.id}}')" class="btn btn-dark btn-sm btn-hover">
-                                    <i class="mdi mdi-pencil"></i>
-                                </div>
-                                <div onclick="delete_subject('{{class.id}}')"
+                             
+                                <div onclick="delete_subject('{{teacher.id}}')"
                                     class="btn btn-danger text-white btn-sm btn-hover">
                                     <i class="mdi mdi-delete"></i>
                                 </div>
@@ -105,5 +75,7 @@
     <!-- end col -->
 </div>
 <!-- end row -->
+<script>
 
+</script>
 {% endblock %}

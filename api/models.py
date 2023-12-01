@@ -20,6 +20,15 @@ class AcademicYear(models.Model):
     desc=models.TextField(null=True,blank=True)
     dateModified=models.DateTimeField(auto_now=True)
 
+
+    def save(self, *args, **kwargs):
+        AcademicYear.objects.exclude(id=self.id).update(isCurrentAcademicYear=False)
+
+        super(AcademicYear, self).save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['-isCurrentAcademicYear']
+
     def __str__(self) -> str:
         return str(self.fromDate)+' -- '+str(self.toDate)
 
@@ -75,9 +84,29 @@ class ExamEntring(models.Model):
 class ExamMarks(models.Model):
     student=models.ForeignKey(Students,on_delete=models.CASCADE)
     exam=models.ForeignKey(ExamEntring,on_delete=models.CASCADE)
+    classe=models.ForeignKey(Classe,on_delete=models.CASCADE,null=True,blank=True)
     subject=models.ForeignKey(Subject,on_delete=models.CASCADE)
     mark=models.IntegerField(null=True,blank=True)
     dateModified=models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
         return str(self.student)+' -- '+str(self.exam)+' -- '+str(self.subject)+' -- '+str(self.mark)
+    
+
+
+class Teachers(models.Model):
+    name=models.CharField(max_length=255)
+    gender=models.CharField(default='ذكر',max_length=10)
+    salary=models.IntegerField(null=True,blank=True)
+    image=models.ImageField(upload_to='images/teachers',null=True,blank=True)
+    phone=models.CharField(max_length=14,null=True,blank=True)
+    title=models.CharField(max_length=255,null=True,blank=True)
+    status=models.BooleanField(default=True)
+    dateRegistred=models.DateField(null=True,blank=True)
+    educatingClasses=models.ManyToManyField(Classe,null=True,blank=True)
+    educatingSubjects=models.ManyToManyField(Subject,null=True,blank=True)
+    educationLevel=models.CharField(max_length=255,null=True,blank=True)
+
+
+    def __str__(self) -> str:
+        return str(self.name) + ' -- '+str(self.title)

@@ -201,6 +201,80 @@ class StudentsRetriveUpdateDestroyApi(APIView):
         student.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+class StudentExamDetail(APIView):
+    def get(self, request, pk, format=None):
+        student = Students.objects.get(pk=pk)
+        examEntring = ExamEntring.objects.filter(academicYear=AcademicYear.objects.filter(isCurrentAcademicYear=True).first())
+        examEntringSerializer = ExamEntringSerializer(examEntring, many=True)
+        examMarks = ExamMarks.objects.filter(student=student).order_by('classe').order_by('exam').order_by('subject')
+        examMarksSerializer = ExamMarksSerializer(examMarks, many=True)
+        
+
+        return Response({'examEntrings':examEntringSerializer.data,'examMarks':examMarksSerializer.data})
+
+
+
+
+# teachrs
+class TeachersListCreate(APIView):
+    def get(self, request, format=None):
+        teachers = Teachers.objects.all()
+        serializer = TeachersSerializer(teachers, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TeachersSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class TeachersRetriveUpdateDestroyApi(APIView):
+    """
+    Retrieve, update or delete a teacher instance.
+    """
+    def get_object(self, pk):
+        try:
+            return Teachers.objects.get(pk=pk)
+        except Teachers.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        teacher = self.get_object(pk)
+        serializer = TeachersSerializer(teacher)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        teacher = self.get_object(pk)
+        serializer = TeachersSerializer(teacher, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk, format=None):
+        teacher = self.get_object(pk)
+        serializer = TeachersSerializer(teacher, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        teacher = self.get_object(pk)
+        teacher.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+
+
+
 
 
 
@@ -262,6 +336,83 @@ class GetExamEntringByAcademicYear(APIView):
         exam_entrings = ExamEntring.objects.filter(academicYear=pk)
         serializer = ExamEntringSerializer(exam_entrings, many=True)
         return Response(serializer.data)
+
+
+class GetClassesByExamEntrings(APIView):
+    def get(self, request, pk, format=None):
+        exam_entrings = ExamEntring.objects.filter(classe=pk)
+        serializer = ExamEntringSerializer(exam_entrings, many=True)
+        return Response(serializer.data)
+
+
+class PrepareExamMarksForThisClassSubjects(APIView):
+    def post(self, request, format=None):
+        examEntringID = request.data['examEntring']
+        classeID = request.data['classe']
+        subjectID = request.data['subject']
+        
+        print('hellow')
+        print(examEntringID)
+
+        students = Students.objects.filter(studentClasse=classeID)
+        # for student in students:
+        #     print('hellow22222')
+        #     if ExamMarks.objects.filter(exam=examEntringID).filter(classe=classeID).filter(subject=subjectID).filter(student=student).exists() == False:
+        #         print('hellow33333')
+        #         examMarks = ExamMarks.objects.create(
+        #             student=student,
+        #             exam=ExamEntring.objects.get(pk=examEntringID),
+        #             classe=Classe.objects.get(pk=classeID),
+        #             subject=Subject.objects.get(pk=subjectID),
+        #             mark=0)
+        #         examMarks.save()
+        #     else:
+        #         print('else')
+                
+        # examMarks = ExamMarks.objects.filter(exam=examEntringID).filter(classe=classeID).filter(subject=subjectID)
+        # serializer = ExamMarksSerializer(examMarks, many=True)
+        serializer = StudentsSerializer(students, many=True)
+        return Response(serializer.data)
+
+class StudentSubjectMarksGetCreate(APIView):
+    def post(self, request, format=None):
+        examEntringID = request.data['examEntring']
+        classeID = request.data['classe']
+        subjectID = request.data['subject']
+        studentID = request.data['student']
+
+        
+
+        if ExamMarks.objects.filter(exam=examEntringID).filter(classe=classeID).filter(subject=subjectID).filter(student=studentID).exists() == False:
+            examMarks = ExamMarks.objects.create(
+                student=Students.objects.get(pk=studentID),
+                exam=ExamEntring.objects.get(pk=examEntringID),
+                classe=Classe.objects.get(pk=classeID),
+                subject=Subject.objects.get(pk=subjectID),
+                mark=0)
+            examMarks.save()
+
+
+        examMarks = ExamMarks.objects.filter(exam=examEntringID).filter(classe=classeID).filter(subject=subjectID).filter(student=studentID)
+        serializer = ExamMarksSerializer(examMarks.last(), many=False)
+
+        return Response(serializer.data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class ExamMarksListCreate(APIView):
     def get(self, request, format=None):

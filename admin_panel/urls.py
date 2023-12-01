@@ -21,6 +21,12 @@ urlpatterns = [
     path('student-detail/<str:pk>/<str:name>/',views.studentDetail),
 
 
+    # manage-teachers
+    path('register-teacher/',views.registerTeacher),
+    path('manage-teachers/',views.manageTeachers),
+    path('teacher-detail/<str:pk>/<str:name>/',views.teacherDetail),
+
+
     path('search-student/',views.academicYear),
 
     # manage-exams

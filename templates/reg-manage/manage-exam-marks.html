@@ -17,14 +17,14 @@
                 <form class="needs-validation fs-3" id="mainForm">
                     {% csrf_token %}
                     <div class="row">
+
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
-                                <label class="form-label" for="academicYear">عام الدراسي</label>
-                                <select class="form-control fs-4" id="academicYear" name="academicYear" required>
-
-                                    <option value="2">sdadhsad</option>
-                                    {% for year in academicYears %}
-                                    <option value="{{ year.pk }}">{{ year }}</option>
+                                <label class="form-label" for="examDate">الامتحان </label>
+                                <select class="form-control fs-4" id="examEntring" name="examEntring" required>
+                                    <option value="nl">اختر الامتحان</option>
+                                    {% for examEntring in examEntrings %}
+                                    <option value="{{ examEntring.pk }}">{{ examEntring }}</option>
                                     {% endfor %}
                                 </select>
                                 <div class="valid-tooltip">
@@ -32,12 +32,12 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
-                                <label class="form-label" for="examDate">التاربح </label>
-                                <input type="date" class="form-control fs-4" disabled id="examDate" name="examDate"
-                                    placeholder="تاريخ الامتحان" required>
+                                <label class="form-label" for="examDate">الفصل </label>
+                                <select class="form-control fs-4" id="classe" disabled name="classe" required>
+
+                                </select>
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
@@ -46,8 +46,9 @@
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="examDate">الماده </label>
-                                <input type="date" class="form-control fs-4" disabled id="examDate" name="examDate"
-                                    placeholder="تاريخ الامتحان" required>
+                                <select class="form-control fs-4" id="subject" disabled name="subject" required>
+
+                                </select>
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
@@ -60,7 +61,7 @@
                         <button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
                     </div>
                 </form>
-                <div role="alert" aria-live="assertive" aria-atomic="true" class="toast shwo" data-autohide="false">
+                <!-- <div role="alert" aria-live="assertive" aria-atomic="true" class="toast shwo" data-autohide="false">
                     <div class="toast-header">
                         <img src="..." class="rounded mr-2" alt="...">
                         <strong class="mr-auto">Bootstrap</strong>
@@ -69,10 +70,37 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <!-- <div class="toast-body">
+                    <div class="toast-body">
                         Hello, world! This is a toast message.
-                    </div> -->
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-12 col-md-12" dir="rtl" style="font-family: 'Lateef', serif;font-size: large;">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3 align-items-center">
+                    <div class="col">
+                        <h2>نتائج الامتحان </h2>
+                    </div>
+
                 </div>
+                <table dir="rtl" class="table table-bordered table-nowrap table-hover dt-responsive nowrap"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead class="fs-3" style="font-family: 'Lateef', serif;font-size: large;">
+                        <tr>
+                            <th>الطالب</th>
+                            <th>الامتحان</th>
+                            <th>الماده</th>
+                            <th>الدرجه</th>
+                        </tr>
+                    </thead>
+                    <tbody id="examMarksTbody">
+
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -80,11 +108,246 @@
 
 </div>
 <script>
-    document.getElementById('academicYear').addEventListener('change', function () {
-        var academicYear = this.value;
-        fetch(`/api/get-exam-eintring-by-academic-year/${academicYear}/`).then(response => response.json()).then(data => {
-            console.log(data);
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // create find funtion that returns the objects of matchated id and he takes id and list of objects
+    function find(id, list) {
+        for (var object of list) {
+            if (object.id == id) {
+                return object;
+            }
+        }
+    }
+    var submittingDiv = document.getElementById('submittingDiv');
+    document.getElementById('examEntring').addEventListener('change', async function () {
+        var examEntringID = this.value;
+
+        if (examEntringID != 'nl') {
+            submittingDiv.innerHTML = `
+                <button class="btn btn-primary" type="button" disabled> 
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                
+                </button>
+            `;
+            await fetch(`/api/exam-entring/${examEntringID}/`).then(response => response.json()).then(examEntringData => {
+                console.log(examEntringData);
+                submittingDiv.innerHTML = `<button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
+            `;
+
+                var classeSelect = document.getElementById('classe');
+                classeSelect.disabled = false;
+                data2 = '<option value="nl">Choose classe</option>';
+
+                for (var classe of examEntringData.classe) {
+                    // console.log('classe')
+                    // console.log(classe)
+                    data2 += `<option value="${classe.id}">${classe.name}</option>`;
+                }
+                classeSelect.innerHTML = data2;
+                submittingDiv.innerHTML = `<button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button> `;
+
+                classeSelect.addEventListener('change', async function () {
+                    var classeID = this.value;
+                    if (classeID != 'nl') {
+                        submittingDiv.innerHTML = `
+                                    <button class="btn btn-primary" type="button" disabled> 
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    
+                                    </button>
+                                `;
+                        var classe = find(classeID, examEntringData.classe);
+                        // console.log(classe)
+                        var subjectSelect = document.getElementById('subject');
+                        subjectSelect.disabled = false;
+                        data3 = '<option value="nl">Choose subject</option>';
+                        for (var subject of classe.subjects) {
+                            data3 += `<option value="${subject.id}">${subject.name}</option>`;
+                        }
+                        subjectSelect.innerHTML = data3;
+                        submittingDiv.innerHTML = `<button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
+                                `;
+                    }
+                })
+
+            })
+        }
+
+
+
+    });
+
+    document.getElementById('mainForm').addEventListener('submit', async function (e) {
+
+        e.preventDefault();
+        submittingDiv.innerHTML = `
+                <button class="btn btn-primary" type="button" disabled> 
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                
+                </button>
+            `;
+        var examEntringID = document.getElementById('examEntring').value;
+        var classeID = document.getElementById('classe').value;
+        var subjectID = document.getElementById('subject').value;
+
+
+        var formData = new FormData(e.target);
+
+
+
+        try {
+            var response = await fetch('/api/prepare-exam-marks-for-this-class-subjects/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: formData,
+            });
+            var data = await response.json();
+            submittingDiv.innerHTML = `<button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button> `;
+
+            var examMarksTbody = document.getElementById('examMarksTbody');
+            var innerHTMLDATA = '';
+
+
+            for (var student of data) {
+                await fetch('/api/student-subject-get-create-marks/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        examEntring: examEntringID,
+                        student: student.id,
+                        subject: subjectID,
+                        classe: classeID,
+                    }),
+                }).then(response => response.json()).then(examMark => {
+
+                    innerHTMLDATA += `
+                    <tr>
+                            <td style='font-size:25px;'>${examMark.student.fullName}</td>
+                            <td>${examMark.exam.examName}</td>
+                            <td>${examMark.subject.name}</td>
+                            <td class="editable" data-id="${examMark.id}" data-type="1" ><strong style='font-weight:normal'>${examMark.mark} </strong></td>
+                            
+                        </tr>
+                    `;
+
+
+                })
+
+
+
+                console.log('222');
+            }
+            examMarksTbody.innerHTML = innerHTMLDATA;
+        } catch (error) {
+            submittingDiv.innerHTML = `<button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
+                    `;
+        }
+
+        // <button class="btn btn-primary" type="button" disabled> 
+        //                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+
+        //                     </button>
+    })
+    // 
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.body.addEventListener('click', function (e) {
+            if (e.target.classList.contains('editable')) {
+                var value = e.target.textContent;
+                console.log(value)
+                console.log('value')
+                var input = document.createElement('input');
+                input.type = 'text';
+                input.maxLength = '3';
+                input.value = value;
+                input.className = 'input-data form-control';
+                input.style.width = '80px';
+                input.style.border = '1px solid red';
+                input.style.fontSize = '18px';
+                e.target.innerHTML = '';
+                e.target.appendChild(input);
+                e.target.classList.remove('editable');
+            }
         });
     });
+    document.addEventListener('DOMContentLoaded', function () {
+        document.body.addEventListener('blur', function (e) {
+            if (e.target.classList.contains('input-data')) {
+                var value = e.target.value;
+                var td = e.target.parentElement;
+                td.textContent = value;
+                td.classList.add('editable');
+                var type = td.getAttribute('data-type');
+                    saveTheData(td.getAttribute('data-id'), value);
+                // updateTotalka();
+                e.target.remove();
+            }
+        }, true); // Use capture to handle blur event
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        document.body.addEventListener('keypress', function (e) {
+            if (e.target.classList.contains('input-data')) {
+                var key = e.which || e.keyCode;
+                if (key === 13) { // 13 is the key code for Enter
+                    var value = e.target.value;
+                    var td = e.target.parentElement;
+                    // e.target.remove();
+                    td.textContent = value;
+                    td.classList.add('editable');
+                    var type = td.getAttribute('data-type');
+                    saveTheData(td.getAttribute('data-id'), value);
+                    // updateTotalka();
+                }
+            }
+        });
+    });
+
+
+
+
+    async function saveTheData(marksID,value) {
+        await fetch('/api/exam-marks/'+marksID+'/', {
+            method: 'PATCH',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                mark: value,
+            }),
+        })
+      
+    }
+
+
+
+
+
 </script>
 {% endblock %}

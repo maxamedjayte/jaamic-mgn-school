@@ -3,7 +3,7 @@
 {% block content %}
 <div class="modal fade bd-example-modal-lg" tabindex="-1" id="edit_eaxm_entring" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-lg">
         <div class="modal-content card card-body" dir="rtl" id="edit_eaxm_entring_body">
 
         </div>
@@ -41,7 +41,11 @@
                                 <select class="form-control fs-4" id="academicYear" name="academicYear" required>
 
                                     {% for year in academicYears %}
-                                    <option value="{{ year.pk }}">{{ year }}</option>
+                                    {% if year.isCurrentAcademicYear %}
+                                    <option style="color: green;" value="{{ year.pk }}">{{ year }}</option>
+                                    {% else %}
+                                    <option style="background-color: grey;" disabled value="{{ year.pk }}">{{ year }}</option>
+                                    {% endif %}
                                     {% endfor %}
                                 </select>
                                 <div class="valid-tooltip">
@@ -62,9 +66,6 @@
                         </div>
                     </div>
 
-                    <div class="row">
-
-                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3 position-relative">
@@ -146,7 +147,8 @@
                                     class="btn btn-info btn-sm btn-hover">
                                     <i class="mdi mdi-eye"></i>
                                 </div>
-                                <div onclick="edit_eaxm_entring('{{examEntring.id}}')" class="btn btn-dark btn-sm btn-hover">
+                                <div onclick="edit_eaxm_entring('{{examEntring.id}}')"
+                                    class="btn btn-dark btn-sm btn-hover">
                                     <i class="mdi mdi-pencil"></i>
                                 </div>
                                 <div onclick="delete_exam('{{examEntring.id}}')"
@@ -218,7 +220,7 @@
         print(exam_entring);
         // change this innerhtml data to my exam entring inputs and values
 
-        edit_eaxm_entring_body.innerHTML=`        <h6>WAX KA-BADDALIDDA IMTIXANAADKA</h6>
+        edit_eaxm_entring_body.innerHTML = `        <h6>WAX KA-BADDALIDDA IMTIXANAADKA</h6>
         <hr>
         <form class="needs-validation fs-3" id="mainForm">
                     {% csrf_token %}
@@ -293,44 +295,44 @@
         </form>
     `;
 
-    $('#edit_eaxm_entring').modal('show');
-    document.getElementById('mainForm2').addEventListener('submit', function (formEvent) {
-        formEvent.preventDefault();
-        var submittingDiv = document.getElementById("submittingDiv2");
-        submittingDiv.innerHTML = `
+        $('#edit_eaxm_entring').modal('show');
+        document.getElementById('mainForm2').addEventListener('submit', function (formEvent) {
+            formEvent.preventDefault();
+            var submittingDiv = document.getElementById("submittingDiv2");
+            submittingDiv.innerHTML = `
             <button class="btn btn-primary" type="button" disabled>
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 Updating...
             </button>
         `;
-        var formData = new FormData(formEvent.target);
+            var formData = new FormData(formEvent.target);
 
 
-        fetch(`/api/exam-entring/${exam_entring_id}/`, {
-            method: 'PATCH', // or 'PATCH' if partial update is desired
-            body: formData,
-            redirect: 'follow'
-        })
-        .then(function (response) {
-            if (response.ok) {
-                // success alert
-                // swall succesfull for exam-entring update and change to arabic text
-                swal("Success", "Successfully updated the academic year.", "success");
-                location.reload();
-            } else {
-                swal("Error", "Failed to update the academic year.", "error");
-            }
-            // Handle response
-        })
-        .catch(function (error) {
-            // Handle error
-        })
-        .finally(function (response) {
-            submittingDiv.innerHTML = `
+            fetch(`/api/exam-entring/${exam_entring_id}/`, {
+                method: 'PATCH', // or 'PATCH' if partial update is desired
+                body: formData,
+                redirect: 'follow'
+            })
+                .then(function (response) {
+                    if (response.ok) {
+                        // success alert
+                        // swall succesfull for exam-entring update and change to arabic text
+                        swal("Success", "Successfully updated the academic year.", "success");
+                        location.reload();
+                    } else {
+                        swal("Error", "Failed to update the academic year.", "error");
+                    }
+                    // Handle response
+                })
+                .catch(function (error) {
+                    // Handle error
+                })
+                .finally(function (response) {
+                    submittingDiv.innerHTML = `
                 <button type="submit" class="btn btn-primary">Submit</button>
             `;
+                });
         });
-    });
 
     }
 </script>

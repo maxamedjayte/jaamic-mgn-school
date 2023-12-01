@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <!-- start page title -->
-<div class="modal fade bd-example-modal-lg" tabindex="-1" id="edit_academic_year" role="dialog"
+<div dir="rtl" class="modal fade bd-example-modal-lg" tabindex="-1" id="edit_academic_year" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content card card-body" id="edit_academic_year_body">
@@ -72,6 +72,17 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3 position-relative">
+                                <label class="form-label" for="isCurrentAcademicYear"> عان الدراسي حاليا</label> &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="checkbox" class="form-check-input" id="isCurrentAcademicYear" name="isCurrentAcademicYear" >
+                                <div class="valid-tooltip">
+                                    تمام!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3 position-relative">
                                 <label class="form-label" for="desc">الوصف</label>
                                 <textarea class="form-control" id="desc" name="desc" placeholder="الوصف"
                                     required></textarea>
@@ -103,7 +114,7 @@
             <div class="card-body">
                 <div class="row mb-0 align-items-center">
                     <div class="col">
-                        <h5>جميع الطلاب</h5>
+                        <h5>جميع الاعوام الدرسي</h5>
                     </div>
                 </div>
                 <table class="table">
@@ -228,43 +239,52 @@ var submitingDiv = document.getElementById("submitingDiv");
     var academic_year = allAcademicYears.find(year => year.id === academic_year_id);
 
     edit_academic_year_body.innerHTML = `
-        <h6>WAX KA-BADDALIDDA SANAD-DUGSIYEEDKA</h6>
+        <h6>تغير العام الدراسي</h6>
         <hr>
         <form method="post" id="mainForm2">
             <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3 position-relative">
-                                <label class="form-label" for="fromDate">From Date</label>
-                                <input type="text" class="form-control" id="fromDate" name="fromDate" value="${academic_year.fromDate}" placeholder="Ka- Bilaawda"
+                                <label class="form-label" for="fromDate">تاريخ البدء</label>
+                                <input type="text" class="form-control" id="fromDate" name="fromDate" value="${academic_year.fromDate}" placeholder="كما في الاستمارة"
                                     required>
                                 <div class="valid-tooltip">
-                                    Looks good!
+                                    تمام!
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3 position-relative">
-                                <label class="form-label" for="toDate">To Date</label>
-                                <input type="text" class="form-control" id="toDate" placeholder="Ku eg" name="toDate" value="${academic_year.toDate}" required>
+                                <label class="form-label" for="toDate">تاريخ الانتهاء</label>
+                                <input type="text" class="form-control" id="toDate" name="toDate" value="${academic_year.toDate}" placeholder="كما في الاستمارة" required>
                                 <div class="valid-tooltip">
-                                    Looks good!
+                                    تمام!
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="mb-3 position-relative">
-                                <label class="form-label" for="desc">Description</label>
-                                <textarea class="form-control" id="desc" name="desc" placeholder="Description"
-                                    required>${academic_year.desc}</textarea>
-                                <div class="invalid-tooltip">
-                                    Please provide a valid description.
+                                <label class="form-label" for="isCurrentAcademicYear"> عان الدراسي حاليا</label> &nbsp; &nbsp; &nbsp; &nbsp;
+                                <input type="checkbox" class="form-check-input" id="isCurrentAcademicYear" value="${academic_year.isCurrentAcademicYear}" name="isCurrentAcademicYear" >
+                                <div class="valid-tooltip">
+                                    تمام!
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="desc">الوصف</label>
+                                <textarea class="form-control" id="desc" name="desc" value="${academic_year.desc}" placeholder="الوصف"
+                                    required></textarea>
+                                <div class="invalid-tooltip">
+                                    يُرجى تقديم وصف صحيح.
+                                </div>
+                            </div>
+                        </div>
                     </div>
             <div id="submittingDiv2">
                 <button type="submit" class="btn btn-primary">Submit</button>

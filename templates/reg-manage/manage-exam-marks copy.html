@@ -1,0 +1,303 @@
+<!-- {% extends 'base-datatable.html' %}
+{% load static %}
+{% block content %}
+<div class="row">
+
+
+    <div class="col-xl-12 col-md-12" dir="rtl" style="font-family: 'Lateef', serif;font-size: large;">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3 align-items-center">
+                    <div class="col">
+                        <h2>قسم الامتحانات</h2>
+                    </div>
+
+                </div>
+                <hr>
+                <form class="needs-validation fs-3" id="mainForm">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="academicYear">عام الدراسي</label>
+                                <select class="form-control fs-4" id="academicYear" name="academicYear" required>
+
+                                    <option value="nl">Choose academic-year</option>
+                                    {% for year in academicYears %}
+                                    <option value="{{ year.pk }}">{{ year }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="examDate">الامتحان </label>
+                                <select class="form-control fs-4" id="examEntring" disabled name="examEntring" required>
+
+                                </select>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="examDate">الفصل </label>
+                                <select class="form-control fs-4" id="classe" disabled name="classe" required>
+
+                                </select>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3 position-relative">
+                                <label class="form-label" for="examDate">الماده </label>
+                                <select class="form-control fs-4" id="subject" disabled name="subject" required>
+
+                                </select>
+                                <div class="valid-tooltip">
+                                    بدون مشاكل!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="submittingDiv">
+                        <button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
+                    </div>
+                </form>
+                <!-- <div role="alert" aria-live="assertive" aria-atomic="true" class="toast shwo" data-autohide="false">
+                    <div class="toast-header">
+                        <img src="..." class="rounded mr-2" alt="...">
+                        <strong class="mr-auto">Bootstrap</strong>
+                        <small>11 mins ago</small>
+                        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="toast-body">
+                        Hello, world! This is a toast message.
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-12 col-md-12" dir="rtl" style="font-family: 'Lateef', serif;font-size: large;">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3 align-items-center">
+                    <div class="col">
+                        <h2>نتائج الامتحان </h2>
+                    </div>
+
+                </div>
+                <hr>
+                <table dir="rtl" id="datatable"
+                    class="table table-bordered table-nowrap table-hover dt-responsive nowrap"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead class="fs-3" id="examMarksThead" style="font-family: 'Lateef', serif;font-size: large;">
+
+                    </thead style="font-family: 'Lateef', serif;font-size: large;">
+                    <tr>
+                        <th>الطالب</th>
+                        <th>الامتحان</th>
+                        <th>الماده</th>
+                        <th>الدرجه</th>
+                        <th>الإجراء</th>
+                    </tr>
+                    </thead>
+                    <tbody id="examMarksTbody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<script>
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
+    var submittingDiv = document.getElementById('submittingDiv');
+    document.getElementById('academicYear').addEventListener('change', async function () {
+        var academicYear = this.value;
+
+        if (academicYear != 'nl') {
+            submittingDiv.innerHTML = `
+                <button class="btn btn-primary" type="button" disabled> 
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                
+                </button>
+            `;
+            await fetch(`/api/get-exam-eintring-by-academic-year/${academicYear}/`).then(response => response.json()).then(examEntringData => {
+                console.log(examEntringData);
+                submittingDiv.innerHTML = `<button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
+            `;
+                var examEntringSelect = document.getElementById('examEntring');
+                var data1 = '<option value="nl">Choose examEntring</option>';
+
+                for (var exam of examEntringData) {
+                    // console.log('examEntringData');
+                    data1 += `<option value="${exam.id}">${exam.examName}  - ${exam.examDate} </option>`;
+                }
+                examEntringSelect.disabled = false;
+                examEntringSelect.innerHTML = data1;
+                examEntringSelect.addEventListener('change', async function () {
+
+                    var examEntringID = this.value;
+                    // console.log('examEntringID')
+                    // console.log(examEntringID)
+                    if (examEntringID != 'nl') {
+                        submittingDiv.innerHTML = `
+                            <button class="btn btn-primary" type="button" disabled> 
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            
+                            </button>
+                        `;
+
+                        // i have list of json examEntringData so i need to make filter to get the examEntring that i need by examEntringID
+                        console.log('examEntringData')
+                        // console.log(examEntringData)
+                        // var examEntring = examEntringData.find(ex => ex.id == examEntringID);
+                        // console.log(examEntring);
+
+                        console.log(examEntringData[0])
+                        console.log(examEntringData[0].classe)
+
+
+                        var classeSelect = document.getElementById('classe');
+                        classeSelect.disabled = false;
+                        data2 = '<option value="nl">Choose classe</option>';
+
+                        for (var classe of examEntringData[0].classe) {
+                            // console.log('classe')
+                            // console.log(classe)
+                            data2 += `<option value="${classe.id}">${classe.name}</option>`;
+                        }
+                        classeSelect.innerHTML = data2;
+                        submittingDiv.innerHTML = `<button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button> `;
+
+                        classeSelect.addEventListener('change', async function () {
+                            var classeID = this.value;
+                            if (classeID != 'nl') {
+                                submittingDiv.innerHTML = `
+                                    <button class="btn btn-primary" type="button" disabled> 
+                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                    
+                                    </button>
+                                `;
+                                var classe = examEntringData[0].classe[0];
+                                // console.log(classe)
+                                var subjectSelect = document.getElementById('subject');
+                                subjectSelect.disabled = false;
+                                data3 = '<option value="nl">Choose subject</option>';
+                                for (var subject of classe.subjects) {
+                                    data3 += `<option value="${subject.id}">${subject.name}</option>`;
+                                }
+                                subjectSelect.innerHTML = data3;
+                                submittingDiv.innerHTML = `<button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
+                                `;
+                            }
+                        })
+
+
+                    }
+                })
+
+            });
+        }
+
+    });
+
+    document.getElementById('mainForm').addEventListener('submit', async function (e) {
+
+        e.preventDefault();
+        submittingDiv.innerHTML = `
+                <button class="btn btn-primary" type="button" disabled> 
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                
+                </button>
+            `;
+        var examEntringID = document.getElementById('examEntring').value;
+        var classeID = document.getElementById('classe').value;
+        var subjectID = document.getElementById('subject').value;
+        var academicYearID = document.getElementById('academicYear').value;
+
+        console.log(examEntringID)
+        console.log(classeID)
+        console.log(subjectID)
+        console.log(academicYearID)
+
+        var formData = new FormData(e.target);
+
+
+
+        try {
+            var response = await fetch('/api/prepare-exam-marks-for-this-class-subjects/', {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: formData,
+            });
+            var data = await response.json();
+            console.log(data);
+            submittingDiv.innerHTML = `<button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
+                    `;
+
+            var examMarksTbody = document.getElementById('examMarksTbody');
+            for (var examMark of data) {
+                console.log(examMark)
+                examMarksTbody.innerHTML += `
+                    <tr>
+                        <td>${examMark.student}</td>
+                        <td>${examMark.examEntring}</td>
+                        <td>${examMark.subject}</td>
+                        <td>${examMark.mark}</td>
+                        <td>
+                            <button class="btn btn-primary" type="button" disabled> 
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }
+        } catch (error) {
+            submittingDiv.innerHTML = `<button class="btn btn-primary fs-4" type="submit">إرسال النموذج</button>
+                    `;
+        }
+
+
+    })
+
+</script>
+{% endblock %} 
