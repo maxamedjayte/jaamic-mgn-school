@@ -140,7 +140,11 @@
                         <tr>
                             <td>{{examEntring.id}}</td>
                             <td>{{examEntring.examName}}</td>
-                            <td>{{examEntring.classe}}</td>
+                            <td>
+                                {% for cls in examEntring.classe.all %}
+                                    {{cls.name}} , 
+                                {% endfor %}
+                            </td>
                             <td>{{examEntring.academicYear}}</td>
                             <td width="100px">
                                 <div onclick="window.location.href = `/exam-entring-detail/{{examEntring.pk}}/`"
@@ -151,10 +155,10 @@
                                     class="btn btn-dark btn-sm btn-hover">
                                     <i class="mdi mdi-pencil"></i>
                                 </div>
-                                <div onclick="delete_exam('{{examEntring.id}}')"
+                                <!-- <div onclick="delete_exam('{{examEntring.id}}')"
                                     class="btn btn-danger text-white btn-sm btn-hover">
                                     <i class="mdi mdi-delete"></i>
-                                </div>
+                                </div> -->
                             </td>
                         </tr>
                         {% endfor %}

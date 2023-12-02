@@ -227,7 +227,7 @@
                         <div class="col-md-8">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="fullName">الاسم الكامل</label>
-                                <input type="text" class="form-control fs-2" disabled value="{{studentDetail.fullName}}"
+                                <input type="text" class="form-control fs-3" disabled value="{{studentDetail.fullName}}"
                                     id="fullName" name="fullName" placeholder="الاسم الكامل" required>
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
@@ -237,7 +237,7 @@
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="gender">الجنس</label>
-                                <select class="form-select fs-2" id="gender" name="gender" disabled required>
+                                <select class="form-select fs-3" id="gender" name="gender" disabled required>
                                     <option selected value="{{studentDetail.gender}}">{{studentDetail.gender}}</option>
 
                                 </select>
@@ -251,7 +251,7 @@
                         <div class="col-md-6">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="parentName">اسم ولي الأمر</label>
-                                <input type="text" class="form-control fs-2" id="parentName" disabled
+                                <input type="text" class="form-control fs-3" id="parentName" disabled
                                     value="{{studentDetail.parentName}}" name="parentName" placeholder="اسم ولي الأمر"
                                     required>
                                 <div class="valid-tooltip">
@@ -262,7 +262,7 @@
                         <div class="col-md-6">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="parentNum">رقم هاتف ولي الأمر</label>
-                                <input type="text" class="form-control fs-2" id="parentNum" disabled
+                                <input type="text" class="form-control fs-3" id="parentNum" disabled
                                     value="{{studentDetail.parentNum}}" name="parentNum"
                                     placeholder="رقم هاتف ولي الأمر" required>
                                 <div class="valid-tooltip">
@@ -281,7 +281,7 @@
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="living"> السكن : المذينة </label>
                                 <input type="text" placeholder=" المذينه" value="{{studentDetail.living}}" disabled
-                                    class="form-control fs-2" id="living" name="living">
+                                    class="form-control fs-3" id="living" name="living">
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
                                 </div>
@@ -290,7 +290,7 @@
                         <div class="col-md-3">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="motherName">إسم الأم </label>
-                                <input type="text" placeholder="إسم الأم" class="form-control fs-2" disabled
+                                <input type="text" placeholder="إسم الأم" class="form-control fs-3" disabled
                                     value="{{studentDetail.motherName}}" id="motherName" name="motherName">
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
@@ -300,7 +300,7 @@
                         <div class="col-md-5">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="studentClasse">الصف الدراسي</label>
-                                <select class="form-control fs-2" id="studentClasse" name="studentClasse" disabled
+                                <select class="form-control fs-3" id="studentClasse" name="studentClasse" disabled
                                     required>
 
                                     <option value="{{studentDetail.studentClasse.pk}}">
@@ -318,7 +318,7 @@
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="placeOfBirth">مكان الميلاد</label>
-                                <input type="text" placeholder="مكان الميلاد" class="form-control fs-2"
+                                <input type="text" placeholder="مكان الميلاد" class="form-control fs-3"
                                     value="{{studentDetail.placeOfBirth}}" disabled id="placeOfBirth"
                                     name="placeOfBirth">
                                 <div class="valid-tooltip">
@@ -329,7 +329,7 @@
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="dateOfBirth">تاريخ الميلاد</label>
-                                <input type="date" class="form-control fs-2" id="dateOfBirth" disabled
+                                <input type="date" class="form-control fs-3" id="dateOfBirth" disabled
                                     value="{{studentDetail.dateOfBirth}}" name="dateOfBirth">
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
@@ -339,7 +339,7 @@
                         <div class="col-md-4">
                             <div class="mb-3 position-relative">
                                 <label class="form-label" for="registredDate">تاريخ التسجيل</label>
-                                <input type="date" class="form-control fs-2" id="registredDate"
+                                <input type="date" class="form-control fs-3" id="registredDate"
                                     value="{{studentDetail.registredDate}}" disabled name="registredDate" required>
                                 <div class="valid-tooltip">
                                     بدون مشاكل!
@@ -380,12 +380,39 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-12 col-md-12" dir="rtl" style="font-family: 'Lateef', serif;font-size: large;">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-3 align-items-center">
+                    <div class="col">
+                        <h2>ملاحظات الطالب </h2>
+                    </div>
+              
+                </div>  <hr>
+                <table class="mt-0 table table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">ملاحظه</th>
+                        <th scope="col">المعلومتن</th>
+                        <th scope="col">الوقت</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="studentNotesTbody">
+                      
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     // make that takes id and list of objects and returns list of same id 
 
     document.addEventListener('DOMContentLoaded', function () {
         getStudentExamDetail();
+        getNotesForThisStudent();
     });
     function find(id, list) {
         listOfObjects = []
@@ -395,6 +422,30 @@
             }
         }
         return listOfObjects;
+    }
+    async function getNotesForThisStudent() {
+        await fetch(`/api/notes-for-this-student/{{studentDetail.pk}}/`).then(response => response.json()).then(notesData => {
+            var studentNotesTbody = document.getElementById('studentNotesTbody');
+            var studentNotesTbodyINNERHTMLDATA = ''
+            for (var note of notesData) {
+                studentNotesTbodyINNERHTMLDATA += `
+                    <tr>
+                        <td>${note.id}</td>
+                        <td>${note.title}</td>
+                        <td>${note.desc}</td>
+                        <td>${note.dateModified.split('T')[0] + ' ' +note.dateModified.split('T')[1].split('Z')[1]}</td>
+                        <td>
+                            <div onclick="delete_note('${note.id}')" class="btn btn-danger text-white btn-sm btn-hover">
+                                <i class="mdi mdi-delete"></i>
+                            </div>
+                        </td>
+                    </tr>
+                `
+            }
+            studentNotesTbody.innerHTML = studentNotesTbodyINNERHTMLDATA
+
+        });
+        
     }
     async function getStudentExamDetail() {
         var examMarksThead = document.getElementById('examMarksThead');

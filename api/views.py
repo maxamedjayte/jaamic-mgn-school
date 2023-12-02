@@ -214,6 +214,65 @@ class StudentExamDetail(APIView):
 
 
 
+# student notes
+class StudentNotesListCreate(APIView):
+    def get(self, request, format=None):
+        student_notes = StudentNotes.objects.all()
+        serializer = StudentNotesSerializer(student_notes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = StudentNotesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class StudentNotesRetriveUpdateDestroyApi(APIView):
+    """
+    Retrieve, update or delete a student notes instance.
+    """
+    def get_object(self, pk):
+        try:
+            return StudentNotes.objects.get(pk=pk)
+        except StudentNotes.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        student_notes = self.get_object(pk)
+        serializer = StudentNotesSerializer(student_notes)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        student_notes = self.get_object(pk)
+        serializer = StudentNotesSerializer(student_notes, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk, format=None):
+        student_notes = self.get_object(pk)
+        serializer = StudentNotesSerializer(student_notes, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        student_notes = self.get_object(pk)
+        student_notes.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class NotesForThisStudent(APIView):
+    def get(self, request,pk, format=None):
+        student_notes = StudentNotes.objects.filter(student=pk)
+        serializer = StudentNotesSerializer(student_notes, many=True)
+        return Response(serializer.data)
+
 
 # teachrs
 class TeachersListCreate(APIView):
@@ -269,6 +328,58 @@ class TeachersRetriveUpdateDestroyApi(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+# teacher notes
+class TeacherNotesListCreate(APIView):
+    def get(self, request, format=None):
+        teacher_notes = TeacherNotes.objects.all()
+        serializer = TeacherNotesSerializer(teacher_notes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TeacherNotesSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class TeacherNotesRetriveUpdateDestroyApi(APIView):
+    """
+    Retrieve, update or delete a teacher notes instance.
+    """
+    def get_object(self, pk):
+        try:
+            return TeacherNotes.objects.get(pk=pk)
+        except TeacherNotes.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        teacher_notes = self.get_object(pk)
+        serializer = TeacherNotesSerializer(teacher_notes)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        teacher_notes = self.get_object(pk)
+        serializer = TeacherNotesSerializer(teacher_notes, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, pk, format=None):
+        teacher_notes = self.get_object(pk)
+        serializer = TeacherNotesSerializer(teacher_notes, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        print(serializer.errors)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        teacher_notes = self.get_object(pk)
+        teacher_notes.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 

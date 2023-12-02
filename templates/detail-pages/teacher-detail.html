@@ -170,49 +170,15 @@
     </div>
 </div>
 <div dir="rtl" style="font-family: 'Lateef', serif;font-size: large;" class="row">
-    <div class="col-xl-2">
-        <div class="user-sidebar">
-            <div class="card">
-                {% if studentDetail.image %}
-                <img src="{{studentDetail.image.url}}" style="object-fit: cover;" class="card-img-top" alt="...">
-                {% else %}
-                <img src="{% static " images/student-im.png" %}" style="object-fit: cover;" class="card-img-top"
-                    alt="...">
-                {% endif %}
-            </div>
-            <!--         
-            <div dir="rtl" class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Demographics</h4>
-                </div>
-                <div class="card-body" >
-                    <ul class="list-unstyled mb-0">
-                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Gender</span><span>Male</span></li>
-                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">DOB</span><span>01/02/2000</span></li>
-                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Age</span><span>22</span></li>
-                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Hire Date</span><span>22/08/2022</span></li>
-                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Department</span><span>Graphic Design</span></li>
-                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Location</span><span>Jannieborouth</span></li>
-                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Position</span><span>UX Designer</span></li>
-                        <li class="d-flex justify-content-between p-2 font-size-15"><span class="text-muted">Supervisor</span><span>Meson Jansen</span></li>
-                    </ul>
-                </div> 
-            </div>  -->
 
 
-
-
-
-        </div>
-    </div>
-
-    <div class="col-xl-10">
+    <div class="col-xl-12">
         <div class="card">
             <div class="card-header" style="background-color: rgb(50, 46, 46); color: white;">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h1 class="modal-title" id="myLargeModalLabel">معلومات هذا الطالب</h1>
+                    <h1 class="modal-title" id="myLargeModalLabel">معلومات هذا المعلم</h1>
 
-                    <button class="btn btn-primary fs-4" onclick="showEditModal()" type="button"> تعديل الطالب</button>
+                    <!-- <button class="btn btn-primary fs-4" onclick="showEditModal()" type="button"> تعديل الطالب</button> -->
                 </div>
             </div>
             <div class="card-body">
@@ -221,134 +187,140 @@
                 <div id="profile-chart" class="apex-charts"></div>
                 <form class="needs-validation fs-3" id="mainForm" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-
-
                     <div class="row">
-                        <div class="col-md-8">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="fullName">الاسم الكامل</label>
-                                <input type="text" class="form-control fs-2" disabled value="{{studentDetail.fullName}}"
-                                    id="fullName" name="fullName" placeholder="الاسم الكامل" required>
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
+                        <div style="border: 1px solid grey;border-radius: 5px;display: flex; justify-content: center; align-items: center; height: 200px;"
+                            class="col-2">
+                            {% if teacherDetail.image %}
+                            <img id="preview-img" style="max-width: 100%; height: auto;object-fit: contain;"
+                                src="{{teacherDetail.image.url}}">
+                            {% else %}
+                            <img id="preview-img" style="max-width: 100%; height: auto;object-fit: contain;"
+                                src="{% static " images/student-im.png" %}">
+                            {% endif %}
+                        </div>
+                        <div class="col-10">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="image">الصورة</label>
+                                        <input type="file" class="form-control fs-4" id="image" name="image"
+                                            accept="image/*" onchange="previewImage(event)">
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="dateRegistred">تاريخ التسجيل</label>
+                                        <input type="date" class="form-control fs-4" id="dateRegistred"
+                                            name="dateRegistred">
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="gender">الجنس</label>
-                                <select class="form-select fs-2" id="gender" name="gender" disabled required>
-                                    <option selected value="{{studentDetail.gender}}">{{studentDetail.gender}}</option>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="name">الاسم الكامل</label>
+                                        <input type="text" class="form-control fs-4" value="{{teacherDetail.name}}"
+                                            id="name" name="name" placeholder="الاسم الكامل" required>
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="gender">الجنس</label>
+                                        <select class="form-select fs-4" id="gender" name="gender" required>
+                                            {% if teacherDetail.gender == 'ذكر' %}
+                                            <option selected value="ذكر">ذكر</option>
+                                            <option value="أنثى">أنثى</option>
+                                            {% else %}
+                                            <option selected value="أنثى">أنثى</option>
+                                            <option value="ذكر">ذكر</option>
 
-                                </select>
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
+                                            {% endif %}
+                                        </select>
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="phone">رقم الهاتف</label>
+                                        <input type="text" class="form-control fs-4" value="{{teacherDetail.phone}}"
+                                            id="phone" name="phone" placeholder="رقم الهاتف">
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="title">اللقب</label>
+                                        <input type="text" class="form-control fs-4" id="title"
+                                            value="{{teacherDetail.title}}" name="title" placeholder="اللقب">
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="title">الفصول</label>
+                                        
+                                        <select class="select2 form-control select2-multiple fs-3"
+                                            style="text-align: right;" multiple="multiple" multiple
+                                            data-placeholder="أختر الفصول ..." id="educatingClasses"
+                                            name="educatingClasses">
+                                            {% for class in classes %}
+                                            {% if class in teacherDetail.educatingClasses.all %}
+                                            <option selected style="text-align: right;" value="{{class.pk}}">{{class}}
+                                            </option>
+                                            {% endif %}
+                                            <option style="text-align: right;" value="{{class.pk}}">{{class}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="phone">المواد </label>
+                                        <select class="select2 form-control select2-multiple fs-3"
+                                            style="text-align: right;" multiple="multiple" multiple
+                                            data-placeholder="أختر المواد ..." id="educatingSubjects"
+                                            name="educatingSubjects">
+                                            {% for subject in subjects %}
+                                            {% if teacherDetail.educatingSubjects.all in subject %}
+                                            <option selected value="{{subject.pk}}">{{subject}}</option>
+                                            {% else %}
+                                            <option value="{{subject.pk}}">{{subject}}</option>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                        <div class="valid-tooltip">
+                                            بدون مشاكل!
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
+
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="parentName">اسم ولي الأمر</label>
-                                <input type="text" class="form-control fs-2" id="parentName" disabled
-                                    value="{{studentDetail.parentName}}" name="parentName" placeholder="اسم ولي الأمر"
-                                    required>
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="parentNum">رقم هاتف ولي الأمر</label>
-                                <input type="text" class="form-control fs-2" id="parentNum" disabled
-                                    value="{{studentDetail.parentNum}}" name="parentNum"
-                                    placeholder="رقم هاتف ولي الأمر" required>
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="living"> السكن : المذينة </label>
-                                <input type="text" placeholder=" المذينه" value="{{studentDetail.living}}" disabled
-                                    class="form-control fs-2" id="living" name="living">
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="motherName">إسم الأم </label>
-                                <input type="text" placeholder="إسم الأم" class="form-control fs-2" disabled
-                                    value="{{studentDetail.motherName}}" id="motherName" name="motherName">
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="studentClasse">الصف الدراسي</label>
-                                <select class="form-control fs-2" id="studentClasse" name="studentClasse" disabled
-                                    required>
-
-                                    <option value="{{studentDetail.studentClasse.pk}}">
-                                        {{studentDetail.studentClasse.name}}</option>
-                                </select>
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="placeOfBirth">مكان الميلاد</label>
-                                <input type="text" placeholder="مكان الميلاد" class="form-control fs-2"
-                                    value="{{studentDetail.placeOfBirth}}" disabled id="placeOfBirth"
-                                    name="placeOfBirth">
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="dateOfBirth">تاريخ الميلاد</label>
-                                <input type="date" class="form-control fs-2" id="dateOfBirth" disabled
-                                    value="{{studentDetail.dateOfBirth}}" name="dateOfBirth">
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3 position-relative">
-                                <label class="form-label" for="registredDate">تاريخ التسجيل</label>
-                                <input type="date" class="form-control fs-2" id="registredDate"
-                                    value="{{studentDetail.registredDate}}" disabled name="registredDate" required>
-                                <div class="valid-tooltip">
-                                    بدون مشاكل!
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr>
 
                 </form>
             </div>
@@ -365,12 +337,13 @@
             <div class="card-body">
                 <div class="row mb-3 align-items-center">
                     <div class="col">
-                        <h2>نتائج الطالب </h2>
+                        <h2> حطور المعلم </h2>
                     </div>
 
                 </div>
                 <table dir="rtl" class="table table-hover">
-                    <thead  id="examMarksThead" class="fs-3" style="font-family: 'Lateef', serif;font-size: medium;background-color: black;color: #fff;">
+                    <thead id="examMarksThead" class="fs-3"
+                        style="font-family: 'Lateef', serif;font-size: medium;background-color: black;color: #fff;">
 
                     </thead>
                     <tbody id="examMarksTbody">
@@ -383,85 +356,6 @@
 </div>
 <script>
     // make that takes id and list of objects and returns list of same id 
-
-    document.addEventListener('DOMContentLoaded', function () {
-        getStudentExamDetail();
-    });
-    function find(id, list) {
-        listOfObjects = []
-        for (var object of list) {
-            if (object.id == id) {
-                return listOfObjects.push(object);
-            }
-        }
-        return listOfObjects;
-    }
-    async function getStudentExamDetail() {
-        var examMarksThead = document.getElementById('examMarksThead');
-        var examMarksTheadINNERHTMLDATA = ''
-        var examMarksTbody = document.getElementById('examMarksTbody');
-        var examMarksTbodyINNERHTMLDATA = ''
-        await fetch(`/api/student-exam-detail/{{studentDetail.id}}/`).then(response => response.json()).then(examsData => {
-
-            examMarksTheadINNERHTMLDATA = `
-                    <tr>
-                        <td>المادة</td>
-                `
-            for (var examEntring of examsData.examEntrings) {
-                try {
-                    examMarksTheadINNERHTMLDATA += `
-                        <td>${examEntring.examName}</td>
-                `
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-            examMarksTheadINNERHTMLDATA += `
-                        <td>المجموع</td>`
-            examMarksTheadINNERHTMLDATA += ` </tr>`
-            examMarksThead.innerHTML = examMarksTheadINNERHTMLDATA;
-
-
-            currentSubjectID = '-99'
-            showTotalMarks = false
-            totakMarksOfTheSubject = 0
-            for (var examMarks of examsData.examMarks) {
-
-                if (currentSubjectID != examMarks.subject.id) {
-                    currentSubjectID = examMarks.subject.id
-                    examMarksTbodyINNERHTMLDATA += `
-                    <tr>
-                        <td>${examMarks.subject.name}
-                `
-                }
-
-                if (currentSubjectID == examMarks.subject.id) {
-                    totakMarksOfTheSubject += examMarks.mark
-                }
-
-                examMarksTbodyINNERHTMLDATA += `
-                            <td>${examMarks.mark}
-                        `
-                // if (showTotalMarks) {
-                //     examMarksTbodyINNERHTMLDATA += `
-                //             <td>${totakMarksOfTheSubject}
-                //         `
-                // }
-
-
-
-            }
-
-
-
-            examMarksTbodyINNERHTMLDATA += ` </tr>`
-            examMarksTbody.innerHTML = examMarksTbodyINNERHTMLDATA
-        });
-    }
-
-    function showEditModal() {
-        $('#edit_student').modal('show');
-    }
     function previewImage(event) {
         var input = event.target;
         if (input.files && input.files[0]) {

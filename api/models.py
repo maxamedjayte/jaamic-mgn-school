@@ -71,6 +71,15 @@ class Students(models.Model):
     def __str__(self) -> str:
         return str(self.fullName)
     
+class StudentNotes(models.Model):
+    student=models.ForeignKey(Students,on_delete=models.CASCADE)
+    title=models.TextField(null=True,blank=True)
+    desc=models.TextField(null=True,blank=True)
+    dateModified=models.DateTimeField(auto_now=True)
+    fixed=models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return str(self.student)+' -- '+str(self.title)
 
 class ExamEntring(models.Model):
     examName=models.CharField(max_length=255)
@@ -110,3 +119,14 @@ class Teachers(models.Model):
 
     def __str__(self) -> str:
         return str(self.name) + ' -- '+str(self.title)
+    
+
+class TeacherNotes(models.Model):
+    teacher=models.ForeignKey(Teachers,on_delete=models.CASCADE)
+    title=models.TextField(null=True,blank=True)
+    desc=models.TextField(null=True,blank=True)
+    dateModified=models.DateTimeField(auto_now=True)
+    fixed=models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return str(self.teacher)+' -- '+str(self.title)

@@ -16,11 +16,16 @@ urlpatterns = [
     path('students/<int:pk>/', StudentsRetriveUpdateDestroyApi.as_view(), name='students-retrive-update-destroy'),
     path('student-exam-detail/<int:pk>/', StudentExamDetail.as_view(), name='student-exam-detail'),
 
+    path('student-notes/', StudentNotesListCreate.as_view(), name='student-notes-list-create'),
+    path('notes-for-this-student/<int:pk>/',NotesForThisStudent.as_view(),name='notes-for-this-student'),
+    path('student-notes/<int:pk>/', StudentNotesRetriveUpdateDestroyApi.as_view(), name='student-notes-retrive-update-destroy'),
+    
 
 
     path('teachers/', TeachersListCreate.as_view(), name='teachers-list-create'),
     path('teachers/<int:pk>/', TeachersRetriveUpdateDestroyApi.as_view(), name='teachers-retrive-update-destroy'),
-
+    path('teacher-notes/', TeacherNotesListCreate.as_view(), name='teacher-notes-list-create'),
+    path('teacher-notes/<int:pk>/', TeacherNotesRetriveUpdateDestroyApi.as_view(), name='teacher-notes-retrive-update-destroy'),
 
 
 

@@ -108,7 +108,9 @@ def manageTeachers(request):
 
 def teacherDetail(request,pk,name):
     teacher=Teachers.objects.filter(pk=pk).first()
-    return render(request,'detail-pages/teacher-detail.html',{'teacherDetail':teacher})
+    subjects= Subject.objects.all()
+    classes = Classe.objects.all()
+    return render(request,'detail-pages/teacher-detail.html',{'teacherDetail':teacher,"subjects":subjects,"classes":classes})
 
 
 
